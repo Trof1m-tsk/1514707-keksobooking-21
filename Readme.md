@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Михаил Трофимов](https://up.htmlacademy.ru/javascript/21/user/1514707).
-* Наставник: `Неизвестно`.
+* Наставник: [Андрей Устименко](https://github.com/ustimenko-andrew).
 
 ---
 
