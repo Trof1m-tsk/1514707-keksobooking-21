@@ -7,13 +7,13 @@ const PIN_Y_MAX = 630;
 const MAX_PRICE = 100000;
 const MAX_ROOMS = 10;
 const MAX_GUESTS = 20;
-const PROPERTY_TYPES = [`palace`, `flat`, `house`,  `bungalow`];
+const PROPERTY_TYPES = [`palace`, `flat`, `house`, `bungalow`];
 const CHECKIN_HOURS = [`12:00`, `13:00`, `14:00`];
 const CHECKOUT_HOURS = [`12:00`, `13:00`, `14:00`];
 const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `conditioner`];
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
-    `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
-    `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
+  `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
+  `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pinsList = document.querySelector(`.map__pins`);
 
@@ -43,7 +43,7 @@ const generateObjectsArray = function (number) {
   for (let i = 0; i < number; i++) {
     const obj = {};
     obj.author = {};
-    obj.author.avatar = `img/avatars/user0`+ (i + 1) +`.png`;
+    obj.author.avatar = `img/avatars/user0` + (i + 1) + `.png`;
     obj.location = {};
     obj.location.x = getRandomNumber(PIN_X_MAX);
     obj.location.y = PIN_Y_MIN + getRandomNumber(PIN_Y_MAX - PIN_Y_MIN);
@@ -77,11 +77,11 @@ const renderPinElement = function (offerData) {
   return pinElement;
 };
 
-const renderPinsOnMap = function (objectsArray) {
+const renderPinsOnMap = function (dataArray) {
   const pinsFragment = document.createDocumentFragment();
 
-  for (let i = 0; i < objectsArray.length; i++) {
-    pinsFragment.appendChild(renderPinElement(objectsArray[i]));
+  for (let i = 0; i < dataArray.length; i++) {
+    pinsFragment.appendChild(renderPinElement(dataArray[i]));
   }
   pinsList.appendChild(pinsFragment);
 };
