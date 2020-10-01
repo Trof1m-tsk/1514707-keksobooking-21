@@ -87,7 +87,10 @@ const renderPinElement = function (offerData) {
 const renderPinsOnMap = function (dataArray) {
   const pinsFragment = document.createDocumentFragment();
 
-  dataArray.forEach((el) => {pinsFragment.appendChild(renderPinElement(el))});
+  dataArray.forEach((el) => {
+    pinsFragment.appendChild(renderPinElement(el));
+  }
+  );
   pinsList.appendChild(pinsFragment);
 };
 
