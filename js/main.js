@@ -21,14 +21,14 @@ const pinsList = document.querySelector(`.map__pins`);
 
 document.querySelector(`.map`).classList.remove(`map--faded`);
 
-const getRandomNumber = function (max, min=0) {
+const getRandomNumber = function (max, min = 0) {
   return Math.floor(min + (Math.random() * (max - min)));
 };
 
 const createRandomList = function (array) {
   const randomSizeSet = new Set();
 
-  array.forEach((item) => {
+  array.forEach(() => {
     randomSizeSet.add(array[getRandomNumber(array.length)]);
   });
 
