@@ -21,56 +21,56 @@ const pinsList = document.querySelector(`.map__pins`);
 
 document.querySelector(`.map`).classList.remove(`map--faded`);
 
-const getRandomNumber = function (number) {
-  return Math.floor(Math.random() * number);
+const getRandomNumber = function (max, min=0) {
+  return Math.floor(min + (Math.random() * (max - min)));
 };
 
-const createRandomSizeSet = function (array) {
+const createRandomList = function (array) {
   const randomSizeSet = new Set();
-  const size = 1 + getRandomNumber(array.length);
 
-  for (let i = 0; i < size; i++) {
-    const setItem = array[getRandomNumber(array.length)];
-    randomSizeSet.add(setItem);
-  }
+  array.forEach((item) => {
+    randomSizeSet.add(array[getRandomNumber(array.length)]);
+  });
 
-  return randomSizeSet;
+  return new Array(randomSizeSet);
 };
 
 const generateOffer = function (offerIndex) {
-  const obj = {};
-  const avatar = `img/avatars/user0` + (offerIndex + 1) + `.png`;
-  obj.author = {};
-  obj.author.avatar = avatar;
-  obj.location = {};
-  obj.location.x = getRandomNumber(PIN_X_MAX);
-  obj.location.y = PIN_Y_MIN + getRandomNumber(PIN_Y_MAX - PIN_Y_MIN);
-  obj.offer = {};
-  obj.offer.title = `Заголовок предложения`;
-  obj.offer.address = obj.location.x + `, ` + obj.location.y;
-  obj.offer.price = getRandomNumber(MAX_PRICE);
-  obj.offer.type = PROPERTY_TYPES[getRandomNumber(PROPERTY_TYPES.length)];
-  obj.offer.rooms = 1 + getRandomNumber(MAX_ROOMS);
-  obj.offer.guests = 1 + getRandomNumber(MAX_GUESTS);
-  obj.offer.checkin = CHECKIN_HOURS[getRandomNumber(CHECKIN_HOURS.length)];
-  obj.offer.checkout = CHECKOUT_HOURS[getRandomNumber(CHECKOUT_HOURS.length)];
-  obj.offer.features = createRandomSizeSet(FEATURES);
-  obj.offer.photos = createRandomSizeSet(PHOTOS);
-
-  return obj;
+  const offerAvatar = `img/avatars/user0` + (offerIndex + 1) + `.png`;
+  return {
+    author: {
+      avatar: offerAvatar
+    },
+    location: {
+      x: getRandomNumber(PIN_X_MAX),
+      y: getRandomNumber(PIN_Y_MAX, PIN_Y_MIN)
+    },
+    offer: {
+      title: `Заголовок предложения`,
+      address: location.x + `, ` + location.y,
+      orice: getRandomNumber(MAX_PRICE),
+      type: PROPERTY_TYPES[getRandomNumber(PROPERTY_TYPES.length)],
+      rooms: getRandomNumber(MAX_ROOMS, 1),
+      guests: getRandomNumber(MAX_GUESTS, 1),
+      heckin: CHECKIN_HOURS[getRandomNumber(CHECKIN_HOURS.length)],
+      checkout: CHECKOUT_HOURS[getRandomNumber(CHECKOUT_HOURS.length)],
+      features: createRandomList(FEATURES),
+      photos: createRandomList(PHOTOS)
+    }
+  };
 };
 
-const createOffersArray = function (number) {
-  const createdOffersArray = [];
+const createOffersList = function (number) {
+  const createdOffersList = [];
 
   for (let i = 0; i < number; i++) {
-    createdOffersArray.push(generateOffer(i));
+    createdOffersList.push(generateOffer(i));
   }
 
-  return createdOffersArray;
+  return createdOffersList;
 };
 
-const offersArray = createOffersArray(OFFERS_NUMBER);
+const offersList = createOffersList(OFFERS_NUMBER);
 
 const renderPinElement = function (offerData) {
   const pinElement = pinTemplate.cloneNode(true);
@@ -89,9 +89,8 @@ const renderPinsOnMap = function (dataArray) {
 
   dataArray.forEach((el) => {
     pinsFragment.appendChild(renderPinElement(el));
-  }
-  );
+  });
   pinsList.appendChild(pinsFragment);
 };
 
-renderPinsOnMap(offersArray);
+renderPinsOnMap(offersList);
