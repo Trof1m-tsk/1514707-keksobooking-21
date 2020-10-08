@@ -31,7 +31,7 @@ const getRandomNumber = function (max, min = 0) {
 const createRandomList = function (array) {
   const randomSizeSet = new Set();
 
-  array.forEach( function () {
+  array.forEach(function () {
     randomSizeSet.add(array[getRandomNumber(array.length)]);
   });
 
@@ -94,7 +94,7 @@ const renderPinElement = function (offerData) {
 const renderPinsOnMap = function (dataArray) {
   const pinsFragment = document.createDocumentFragment();
 
-  dataArray.forEach( function (el) {
+  dataArray.forEach(function (el) {
     pinsFragment.appendChild(renderPinElement(el));
   });
   pinsList.appendChild(pinsFragment);
@@ -110,21 +110,21 @@ const getCapacityString = function (rooms, guests) {
     roomWord += `а`;
   } else if (rooms === 2 || rooms === 3 || rooms === 4) {
     roomWord += `ы`;
-  };
+  }
 
   if (guests === 1) {
     guetsWord += `я`;
   } else {
     guetsWord += `ей`;
-  };
+  }
 
-  return rooms + ` ` + roomWord +  ` для ` + guests + ` ` + guetsWord;
+  return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
 };
 
 const renderPhotosOnCard = function (photosList) {
   const photosFragment = document.createDocumentFragment();
 
-  photosList.forEach( function(photo) {
+  photosList.forEach(function (photo) {
     const photoItem = document.createElement(`img`);
     photoItem.className = `popup__photo`;
     photoItem.width = 45;
@@ -161,27 +161,17 @@ const renderCardElement = function (firstOfferData) {
   popupCapacity.textContent = getCapacityString(firstOfferData.offer.rooms, firstOfferData.offer.guests);
   popupTime.textContent = `Заезд после ` + firstOfferData.offer.checkin + `, выезд до ` + firstOfferData.offer.checkout;
 
-  popupFeaturesList.forEach( function (item) {
+  popupFeaturesList.forEach(function (item) {
     item.classList.add(`visually-hidden`);
   });
 
-  firstOfferData.offer.features.forEach( function (feature) {
+  firstOfferData.offer.features.forEach(function (feature) {
     const featureClass = `.popup__feature--` + feature;
 
     cardElement.querySelector(featureClass).classList.remove(`visually-hidden`);
   });
 
   popupDescription.textContent = firstOfferData.offer.description;
-  /*const photosListLength =
-  if (photosListLength > 1) {
-    for (let i = 1; i < photosListLength; i++){
-          popupPhotos.appendChild(popupPhoto);
-
-    }
-  } else {
-  popupPhoto.src = firstOfferData.offer.photos[0];
-  }*/
-
   popupPhotos.appendChild(renderPhotosOnCard(firstOfferData.offer.photos));
 
   return cardElement;
