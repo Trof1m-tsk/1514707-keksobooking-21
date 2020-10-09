@@ -104,7 +104,7 @@ renderPinsOnMap(offersList);
 
 const getCapacityString = function (rooms, guests) {
   let roomWord = `комнат`;
-  let guetsWord = `гост`;
+  let guetsWord;
 
   switch (rooms) {
     case 1:
@@ -116,7 +116,7 @@ const getCapacityString = function (rooms, guests) {
       roomWord += `ы`;
   }
 
-  guests === 1 ? (guetsWord += `я`) : (guetsWord += `ей`);
+  guests === 1 ? guetsWord = `гостя` : guetsWord = `гостей`;
 
   return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
 };
