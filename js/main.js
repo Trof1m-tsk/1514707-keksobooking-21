@@ -116,7 +116,7 @@ const getCapacityString = function (rooms, guests) {
       roomWord += `ы`;
   }
 
-  guests === 1 ? guetsWord += `я` : guetsWord += `ей`;
+  (guests === 1) ? guetsWord += `я` : guetsWord += `ей`;
 
   return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
 };
@@ -140,7 +140,7 @@ const createPhotosFragment = function (photosList) {
 
 const renderCardElement = function (offerData) {
   const cardElement = cardTemplate.cloneNode(true);
-  const housingType = document.querySelector(`option[value="`+offerData.offer.type+`"]`).textContent;
+  const housingType = document.querySelector(`option[value="` + offerData.offer.type + `"]`).textContent;
 
   const popupAvatar = cardElement.querySelector(`.popup__avatar`);
   const popupTitle = cardElement.querySelector(`.popup__title`);
