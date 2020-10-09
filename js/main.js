@@ -16,7 +16,7 @@ const FEATURES = [`wifi`, `dishwasher`, `parking`, `washer`, `elevator`, `condit
 const PHOTOS = [`http://o0.github.io/assets/images/tokyo/hotel1.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel2.jpg`,
   `http://o0.github.io/assets/images/tokyo/hotel3.jpg`];
-const theMap = document.querySelector(`.map`);
+const map = document.querySelector(`.map`);
 const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 const pinsList = document.querySelector(`.map__pins`);
 const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
@@ -106,22 +106,22 @@ const getCapacityString = function (rooms, guests) {
   let roomWord = `комнат`;
   let guetsWord = `гост`;
 
-  if (rooms === 1) {
-    roomWord += `а`;
-  } else if (rooms === 2 || rooms === 3 || rooms === 4) {
-    roomWord += `ы`;
+  switch (rooms) {
+    case 1:
+      roomWord += `а`;
+      break;
+    case 2:
+    case 3:
+    case 4:
+      roomWord += `ы`;
   }
 
-  if (guests === 1) {
-    guetsWord += `я`;
-  } else {
-    guetsWord += `ей`;
-  }
+  guests === 1 ? guetsWord += `я` : guetsWord += `ей`;
 
   return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
 };
 
-const renderPhotosOnCard = function (photosList) {
+const createPhotosFragment = function (photosList) {
   const photosFragment = document.createDocumentFragment();
 
   photosList.forEach(function (photo) {
@@ -138,9 +138,9 @@ const renderPhotosOnCard = function (photosList) {
   return photosFragment;
 };
 
-const renderCardElement = function (firstOfferData) {
+const renderCardElement = function (offerData) {
   const cardElement = cardTemplate.cloneNode(true);
-  const housingType = document.getElementById(firstOfferData.offer.type).textContent;
+  const housingType = document.querySelector(`option[value="`+offerData.offer.type+`"]`).textContent;
 
   const popupAvatar = cardElement.querySelector(`.popup__avatar`);
   const popupTitle = cardElement.querySelector(`.popup__title`);
@@ -153,29 +153,29 @@ const renderCardElement = function (firstOfferData) {
   const popupDescription = cardElement.querySelector(`.popup__description`);
   const popupPhotos = cardElement.querySelector(`.popup__photos`);
 
-  popupAvatar.src = firstOfferData.author.avatar;
-  popupTitle.textContent = firstOfferData.offer.title;
-  popupAddress.textContent = firstOfferData.offer.address;
-  popupPrice.textContent = firstOfferData.offer.price + `₽/ночь`;
+  popupAvatar.src = offerData.author.avatar;
+  popupTitle.textContent = offerData.offer.title;
+  popupAddress.textContent = offerData.offer.address;
+  popupPrice.textContent = offerData.offer.price + `₽/ночь`;
   popupType.textContent = housingType;
-  popupCapacity.textContent = getCapacityString(firstOfferData.offer.rooms, firstOfferData.offer.guests);
-  popupTime.textContent = `Заезд после ` + firstOfferData.offer.checkin + `, выезд до ` + firstOfferData.offer.checkout;
+  popupCapacity.textContent = getCapacityString(offerData.offer.rooms, offerData.offer.guests);
+  popupTime.textContent = `Заезд после ` + offerData.offer.checkin + `, выезд до ` + offerData.offer.checkout;
 
   popupFeaturesList.forEach(function (item) {
     item.classList.add(`visually-hidden`);
   });
 
-  firstOfferData.offer.features.forEach(function (feature) {
-    const featureClass = `.popup__feature--` + feature;
+  offerData.offer.features.forEach(function (feature) {
+    const featureClass = `.popup__feature--${feature}`;
 
     cardElement.querySelector(featureClass).classList.remove(`visually-hidden`);
   });
 
-  popupDescription.textContent = firstOfferData.offer.description;
-  popupPhotos.appendChild(renderPhotosOnCard(firstOfferData.offer.photos));
+  popupDescription.textContent = offerData.offer.description;
+  popupPhotos.appendChild(createPhotosFragment(offerData.offer.photos));
 
   return cardElement;
 };
 
 
-theMap.insertBefore(renderCardElement(offersList[0]), filtersContainer);
+map.insertBefore(renderCardElement(offersList[0]), filtersContainer);
