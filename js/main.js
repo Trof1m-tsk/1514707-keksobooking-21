@@ -116,7 +116,11 @@ const getCapacityString = function (rooms, guests) {
       roomWord += `ы`;
   }
 
-  guests === 1 ? guetsWord = `гостя` : guetsWord = `гостей`;
+  if (guests === 1) {
+    guetsWord = `гостя`;
+  } else {
+    guetsWord = `гостей`;
+  }
 
   return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
 };
