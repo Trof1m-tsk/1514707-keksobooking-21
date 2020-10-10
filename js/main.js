@@ -103,8 +103,8 @@ const renderPinsOnMap = function (dataArray) {
 renderPinsOnMap(offersList);
 
 const getCapacityString = function (rooms, guests) {
+  let guetsWord = `гост${guests === 1 ? `я` : `ей`}`;
   let roomWord = `комнат`;
-  let guetsWord;
 
   switch (rooms) {
     case 1:
@@ -114,12 +114,6 @@ const getCapacityString = function (rooms, guests) {
     case 3:
     case 4:
       roomWord += `ы`;
-  }
-
-  if (guests === 1) {
-    guetsWord = `гостя`;
-  } else {
-    guetsWord = `гостей`;
   }
 
   return [rooms, roomWord, `для`, guests, guetsWord].join(` `);
@@ -167,12 +161,11 @@ const renderCardElement = function (offerData) {
 
   popupFeaturesList.forEach(function (item) {
     item.classList.add(`visually-hidden`);
-  });
-
-  offerData.offer.features.forEach(function (feature) {
-    const featureClass = `.popup__feature--${feature}`;
-
-    cardElement.querySelector(featureClass).classList.remove(`visually-hidden`);
+    offerData.offer.features.forEach(function (feature) {
+      if (item.classList.contains(`popup__feature--${feature}`)) {
+        item.classList.remove(`visually-hidden`);
+      };
+    });
   });
 
   popupDescription.textContent = offerData.offer.description;
