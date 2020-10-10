@@ -164,7 +164,7 @@ const renderCardElement = function (offerData) {
     offerData.offer.features.forEach(function (feature) {
       if (item.classList.contains(`popup__feature--${feature}`)) {
         item.classList.remove(`visually-hidden`);
-      };
+      }
     });
   });
 
