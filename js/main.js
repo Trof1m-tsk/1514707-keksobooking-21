@@ -194,27 +194,27 @@ mainPin.addEventListener(`keydown`, function (evt) {
 });
 
 const pinCoords = function (pinElement) {
-  return `${pinElement.offsetLeft + PIN_OFFSET_X}, ${pinElement.offsetTop + PIN_OFFSET_Y}`
-}
+  return `${pinElement.offsetLeft + PIN_OFFSET_X}, ${pinElement.offsetTop + PIN_OFFSET_Y}`;
+};
 
 addressInput.value = pinCoords(mainPin);
 
 const roomsSelect = adForm.querySelector(`#room_number`);
 const capacitySelect = adForm.querySelector(`#capacity`);
 
-roomsSelect.addEventListener(`input`, function() {
-  if (roomsSelect.value === `100`){
+roomsSelect.addEventListener(`input`, function () {
+  if (roomsSelect.value === `100`) {
     capacitySelect.querySelector(`option[value="0"`).setAttribute(`selected`, `selected`);
-  } else if (roomsSelect.value === `3`){
+  } else if (roomsSelect.value === `3`) {
     capacitySelect.querySelector(`option[value="3"`).setAttribute(`selected`, `selected`);
-  } else if (roomsSelect.value === `2`){
+  } else if (roomsSelect.value === `2`) {
     capacitySelect.querySelector(`option[value="2"`).setAttribute(`selected`, `selected`);
-  } else if (roomsSelect.value === `1`){
+  } else if (roomsSelect.value === `1`) {
     capacitySelect.querySelector(`option[value="1"`).setAttribute(`selected`, `selected`);
   }
 });
 
-capacitySelect.addEventListener(`input`, function() {
+capacitySelect.addEventListener(`input`, function () {
   if (roomsSelect.value === `100` && capacitySelect.value !== `0`) {
     capacitySelect.setCustomValidity(`Не для гостей`);
   } else if (roomsSelect.value === `3` && capacitySelect.value === `0`) {
