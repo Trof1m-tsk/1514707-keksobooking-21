@@ -242,6 +242,4 @@ const onCangeCapacityValidate = function () {
   capacitySelect.reportValidity();
 };
 
-
-
 capacitySelect.addEventListener(`input`, onCangeCapacityValidate);
