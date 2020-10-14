@@ -212,15 +212,18 @@ const capacitySelect = adForm.querySelector(`#capacity`);
 
 const onSetRoomsChangeCapacity = function () {
   if (roomsSelect.value === `100`) {
-    capacitySelect.querySelector(`option[value="0"]`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="0"]`).selected = `selected`;
   } else if (roomsSelect.value === `3`) {
-    capacitySelect.querySelector(`option[value="3"]`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="3"]`).selected = `selected`;
   } else if (roomsSelect.value === `2`) {
-    capacitySelect.querySelector(`option[value="2"]`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="2"]`).selected = `selected`;
   } else if (roomsSelect.value === `1`) {
-    capacitySelect.querySelector(`option[value="1"]`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="1"]`).selected = `selected`;
   }
 };
+
+
+roomsSelect.addEventListener(`input`, onSetRoomsChangeCapacity);
 
 const onCangeCapacityValidate = function () {
   if (roomsSelect.value === `100` && capacitySelect.value !== `0`) {
@@ -239,6 +242,6 @@ const onCangeCapacityValidate = function () {
   capacitySelect.reportValidity();
 };
 
-roomsSelect.addEventListener(`input`, onSetRoomsChangeCapacity);
+
 
 capacitySelect.addEventListener(`input`, onCangeCapacityValidate);
