@@ -1,6 +1,14 @@
 "use strict";
 
 const OFFERS_NUMBER = 8;
+const AVATARS = [`img/avatars/user01.png`,
+  `img/avatars/user02.png`,
+  `img/avatars/user03.png`,
+  `img/avatars/user04.png`,
+  `img/avatars/user05.png`,
+  `img/avatars/user06.png`,
+  `img/avatars/user07.png`,
+  `img/avatars/user08.png`];
 const PIN_X_MAX = 1200;
 const PIN_Y_MIN = 130;
 const PIN_Y_MAX = 630;
@@ -40,7 +48,7 @@ const createRandomList = function (array) {
 };
 
 const generateOffer = function (offerIndex) {
-  const offerAvatar = `img/avatars/user0${offerIndex + 1}.png`;
+  const offerAvatar = AVATARS[offerIndex];
   const xCoordinate = getRandomNumber(PIN_X_MAX);
   const yCoordinate = getRandomNumber(PIN_Y_MAX, PIN_Y_MIN);
 
@@ -202,19 +210,19 @@ addressInput.value = pinCoords(mainPin);
 const roomsSelect = adForm.querySelector(`#room_number`);
 const capacitySelect = adForm.querySelector(`#capacity`);
 
-roomsSelect.addEventListener(`input`, function () {
+const onSetRoomsChangeCapacity = function () {
   if (roomsSelect.value === `100`) {
-    capacitySelect.querySelector(`option[value="0"`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="0"]`).setAttribute(`selected`, `selected`);
   } else if (roomsSelect.value === `3`) {
-    capacitySelect.querySelector(`option[value="3"`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="3"]`).setAttribute(`selected`, `selected`);
   } else if (roomsSelect.value === `2`) {
-    capacitySelect.querySelector(`option[value="2"`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="2"]`).setAttribute(`selected`, `selected`);
   } else if (roomsSelect.value === `1`) {
-    capacitySelect.querySelector(`option[value="1"`).setAttribute(`selected`, `selected`);
+    capacitySelect.querySelector(`option[value="1"]`).setAttribute(`selected`, `selected`);
   }
-});
+};
 
-capacitySelect.addEventListener(`input`, function () {
+const onCangeCapacityValidate = function () {
   if (roomsSelect.value === `100` && capacitySelect.value !== `0`) {
     capacitySelect.setCustomValidity(`Не для гостей`);
   } else if (roomsSelect.value === `3` && capacitySelect.value === `0`) {
@@ -229,4 +237,8 @@ capacitySelect.addEventListener(`input`, function () {
   }
 
   capacitySelect.reportValidity();
-});
+};
+
+roomsSelect.addEventListener(`input`, onSetRoomsChangeCapacity);
+
+capacitySelect.addEventListener(`input`, onCangeCapacityValidate);
