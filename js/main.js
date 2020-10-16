@@ -152,10 +152,6 @@ const createPhotosFragment = function (photosList) {
   return photosFragment;
 };
 
-const renderCardElement = function () {
-  return cardTemplate.cloneNode(true);
-};
-
 map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
 
 const cardElement = map.querySelector(`.map__card`);
@@ -228,13 +224,13 @@ const onEnterShowCard = function (evt) {
   }
 };
 
-const showCard = function() {
+const showCard = function () {
   mapCard.classList.remove(`visually-hidden`);
   cardCloseButton.addEventListener(`mousedown`, onClickCardCross);
   document.addEventListener(`keydown`, onEscOpenCard);
 };
 
-const hideCard = function() {
+const hideCard = function () {
   mapCard.classList.add(`visually-hidden`);
   cardCloseButton.removeEventListener(`mousedown`, onClickCardCross);
   document.removeEventListener(`keydown`, onEscOpenCard);
@@ -244,7 +240,7 @@ const mapUnblock = function () {
   map.classList.remove(`map--faded`);
   adForm.classList.remove(`ad-form--disabled`);
 
-  mapPins.forEach( function (pin) {
+  mapPins.forEach(function (pin) {
     pin.addEventListener(`mousedown`, onClickShowCard);
     pin.addEventListener(`keydown`, onEnterShowCard);
   });
@@ -279,10 +275,10 @@ const capacitySelect = adForm.querySelector(`#capacity`);
 const priceInput = adForm.querySelector(`#price`);
 const typeSelect = adForm.querySelector(`#type`);
 const minPrices = {
-  bungalow : 0,
-  flat : 1000,
-  house : 5000,
-  palace : 10000
+  bungalow: 0,
+  flat: 1000,
+  house: 5000,
+  palace: 10000
 };
 const checkinSelect = adForm.querySelector(`#timein`);
 const checkoutSelect = adForm.querySelector(`#timeout`);
