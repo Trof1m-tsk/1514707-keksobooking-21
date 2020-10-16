@@ -205,8 +205,8 @@ const onEscOpenCard = function (evt) {
 };
 
 const onClickShowCard = function (evt) {
-  if (!this.classList.contains(`map__pin--main`)) {
-    fillCard(offersList[this.dataset.pinIndex]);
+  if (!evt.target.classList.contains(`map__pin--main`)) {
+    fillCard(offersList[evt.target.dataset.pinIndex]);
     if (mapCard.classList.contains(`visually-hidden`)) {
       showCard();
     }
@@ -215,8 +215,8 @@ const onClickShowCard = function (evt) {
 
 const onEnterShowCard = function (evt) {
   if (evt.key === `Enter`) {
-    if (!this.classList.contains(`map__pin--main`)) {
-      fillCard(offersList[this.dataset.pinIndex]);
+    if (!evt.target.classList.contains(`map__pin--main`)) {
+      fillCard(offersList[evt.target.dataset.pinIndex]);
       if (mapCard.classList.contains(`visually-hidden`)) {
         showCard();
       }
