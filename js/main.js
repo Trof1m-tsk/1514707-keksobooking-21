@@ -204,7 +204,7 @@ const onEscOpenCard = function (evt) {
   }
 };
 
-const onClickShowCard = function (addEventListener) {
+const onClickShowCard = function (evt) {
   if (!evt.target.classList.contains(`map__pin--main`)) {
     fillCard(offersList[evt.target.dataset.pinIndex]);
     if (mapCard.classList.contains(`visually-hidden`)) {
