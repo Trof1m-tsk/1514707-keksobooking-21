@@ -152,19 +152,36 @@ const createPhotosFragment = function (photosList) {
   return photosFragment;
 };
 
+const createCard = function () {
+  map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
+
+  const mapCard = map.querySelector(`.map__card`);
+  window.mapCard = mapCard;
+
+  mapCard.addEventListener(`mousedown`, onClickCardCross);
+  document.addEventListener(`keydown`, onEscCard);
+};
+
+const deleteCard = function () {
+  window.mapCard.removeEventListener(`mousedown`, onClickCardCross);
+  document.removeEventListener(`keydown`, onEscCard);
+  map.removeChild(window.mapCard);
+};
+
 const fillCard = function (offerData) {
 
+
   const housingType = document.querySelector(`option[value="${offerData.offer.type}"]`).textContent;
-  const popupAvatar = mapCard.querySelector(`.popup__avatar`);
-  const popupTitle = mapCard.querySelector(`.popup__title`);
-  const popupAddress = mapCard.querySelector(`.popup__text--address`);
-  const popupPrice = mapCard.querySelector(`.popup__text--price`);
-  const popupType = mapCard.querySelector(`.popup__type`);
-  const popupCapacity = mapCard.querySelector(`.popup__text--capacity`);
-  const popupTime = mapCard.querySelector(`.popup__text--time`);
-  const popupFeaturesList = mapCard.querySelectorAll(`.popup__feature`);
-  const popupDescription = mapCard.querySelector(`.popup__description`);
-  const popupPhotos = mapCard.querySelector(`.popup__photos`);
+  const popupAvatar = window.mapCard.querySelector(`.popup__avatar`);
+  const popupTitle = window.mapCard.querySelector(`.popup__title`);
+  const popupAddress = window.mapCard.querySelector(`.popup__text--address`);
+  const popupPrice = window.mapCard.querySelector(`.popup__text--price`);
+  const popupType = window.mapCard.querySelector(`.popup__type`);
+  const popupCapacity = window.mapCard.querySelector(`.popup__text--capacity`);
+  const popupTime = window.mapCard.querySelector(`.popup__text--time`);
+  const popupFeaturesList = window.mapCard.querySelectorAll(`.popup__feature`);
+  const popupDescription = window.mapCard.querySelector(`.popup__description`);
+  const popupPhotos = window.mapCard.querySelector(`.popup__photos`);
 
   popupAvatar.src = offerData.author.avatar;
   popupTitle.textContent = offerData.offer.title;
@@ -184,23 +201,6 @@ const fillCard = function (offerData) {
   popupPhotos.innerHTML = ``;
   popupPhotos.appendChild(createPhotosFragment(offerData.offer.photos));
 };
-
-const createCard = function () {
-  map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
-
-  const mapCard = map.querySelector(`.map__card`);
-  window.mapCard = mapCard;
-
-  mapCard.addEventListener(`mousedown`, onClickCardCross);
-  document.addEventListener(`keydown`, onEscCard);
-};
-
-const deleteCard = function () {
-  mapCard.removeEventListener(`mousedown`, onClickCardCross);
-  document.removeEventListener(`keydown`, onEscCard);
-  map.removeChild(mapCard);
-};
-
 
 const onClickCardCross = function (evt) {
   if (evt.which === 1) {
