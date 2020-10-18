@@ -104,7 +104,7 @@ const renderPinElement = function (offerData) {
 const renderPinsOnMap = function (dataArray) {
   const pinsFragment = document.createDocumentFragment();
 
-  dataArray.forEach(function (el, index = 0) {
+  dataArray.forEach(function (el, index) {
     const pin = renderPinElement(el);
     pin.dataset.pinIndex = index;
     pin.tabindex = index + 1;
@@ -152,22 +152,19 @@ const createPhotosFragment = function (photosList) {
   return photosFragment;
 };
 
-map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
-
-const cardElement = map.querySelector(`.map__card`);
-const popupAvatar = cardElement.querySelector(`.popup__avatar`);
-const popupTitle = cardElement.querySelector(`.popup__title`);
-const popupAddress = cardElement.querySelector(`.popup__text--address`);
-const popupPrice = cardElement.querySelector(`.popup__text--price`);
-const popupType = cardElement.querySelector(`.popup__type`);
-const popupCapacity = cardElement.querySelector(`.popup__text--capacity`);
-const popupTime = cardElement.querySelector(`.popup__text--time`);
-const popupFeaturesList = cardElement.querySelectorAll(`.popup__feature`);
-const popupDescription = cardElement.querySelector(`.popup__description`);
-const popupPhotos = cardElement.querySelector(`.popup__photos`);
-
 const fillCard = function (offerData) {
+
   const housingType = document.querySelector(`option[value="${offerData.offer.type}"]`).textContent;
+  const popupAvatar = mapCard.querySelector(`.popup__avatar`);
+  const popupTitle = mapCard.querySelector(`.popup__title`);
+  const popupAddress = mapCard.querySelector(`.popup__text--address`);
+  const popupPrice = mapCard.querySelector(`.popup__text--price`);
+  const popupType = mapCard.querySelector(`.popup__type`);
+  const popupCapacity = mapCard.querySelector(`.popup__text--capacity`);
+  const popupTime = mapCard.querySelector(`.popup__text--time`);
+  const popupFeaturesList = mapCard.querySelectorAll(`.popup__feature`);
+  const popupDescription = mapCard.querySelector(`.popup__description`);
+  const popupPhotos = mapCard.querySelector(`.popup__photos`);
 
   popupAvatar.src = offerData.author.avatar;
   popupTitle.textContent = offerData.offer.title;
@@ -188,61 +185,66 @@ const fillCard = function (offerData) {
   popupPhotos.appendChild(createPhotosFragment(offerData.offer.photos));
 };
 
-const mapCard = map.querySelector(`.map__card`);
-const mapPins = map.querySelectorAll(`.map__pin`);
-const cardCloseButton = mapCard.querySelector(`.popup__close`);
+const createCard = function () {
+  map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
+
+  const mapCard = map.querySelector(`.map__card`);
+  window.mapCard = mapCard;
+
+  mapCard.addEventListener(`mousedown`, onClickCardCross);
+  document.addEventListener(`keydown`, onEscCard);
+};
+
+const deleteCard = function () {
+  mapCard.removeEventListener(`mousedown`, onClickCardCross);
+  document.removeEventListener(`keydown`, onEscCard);
+  map.removeChild(mapCard);
+};
+
 
 const onClickCardCross = function (evt) {
   if (evt.which === 1) {
-    hideCard();
+    deleteCard();
   }
 };
 
-const onEscOpenCard = function (evt) {
+const onEscCard = function (evt) {
   if (evt.key === `Escape`) {
-    hideCard();
+    deleteCard();
   }
 };
 
-const onClickShowCard = function (evt) {
-  if (!evt.target.classList.contains(`map__pin--main`)) {
+const onClickPin = function (evt) {
+  if (!evt.currentTarget.classList.contains(`map__pin--main`)) {
+
+    if (!map.querySelector(`.map__card`)) {
+      createCard();
+    }
+
+    fillCard(offersList[evt.currentTarget.dataset.pinIndex]);
+  }
+};
+
+const onEnterActivePin = function (evt) {
+  if (evt.key === `Enter` && !evt.target.classList.contains(`map__pin--main`)) {
+
+    if (!map.querySelector(`.map__card`)) {
+      createCard();
+    }
+
     fillCard(offersList[evt.target.dataset.pinIndex]);
-    if (mapCard.classList.contains(`visually-hidden`)) {
-      showCard();
-    }
   }
 };
 
-const onEnterShowCard = function (evt) {
-  if (evt.key === `Enter`) {
-    if (!evt.target.classList.contains(`map__pin--main`)) {
-      fillCard(offersList[evt.target.dataset.pinIndex]);
-      if (mapCard.classList.contains(`visually-hidden`)) {
-        showCard();
-      }
-    }
-  }
-};
-
-const showCard = function () {
-  mapCard.classList.remove(`visually-hidden`);
-  cardCloseButton.addEventListener(`mousedown`, onClickCardCross);
-  document.addEventListener(`keydown`, onEscOpenCard);
-};
-
-const hideCard = function () {
-  mapCard.classList.add(`visually-hidden`);
-  cardCloseButton.removeEventListener(`mousedown`, onClickCardCross);
-  document.removeEventListener(`keydown`, onEscOpenCard);
-};
+const mapPins = map.querySelectorAll(`.map__pin`);
 
 const mapUnblock = function () {
   map.classList.remove(`map--faded`);
   adForm.classList.remove(`ad-form--disabled`);
 
   mapPins.forEach(function (pin) {
-    pin.addEventListener(`mousedown`, onClickShowCard);
-    pin.addEventListener(`keydown`, onEnterShowCard);
+    pin.addEventListener(`mousedown`, onClickPin);
+    pin.addEventListener(`keydown`, onEnterActivePin);
   });
 
   roomsSelect.addEventListener(`input`, onSetRoomsChangeCapacity);
