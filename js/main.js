@@ -170,7 +170,6 @@ const deleteCard = function () {
 
 const fillCard = function (offerData) {
 
-
   const housingType = document.querySelector(`option[value="${offerData.offer.type}"]`).textContent;
   const popupAvatar = window.mapCard.querySelector(`.popup__avatar`);
   const popupTitle = window.mapCard.querySelector(`.popup__title`);
