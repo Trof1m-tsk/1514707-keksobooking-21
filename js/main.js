@@ -2,10 +2,12 @@
 
 (function () {
 
-  window.map.renderPinsOnMap(window.data.offersList);
-
   const map = document.querySelector(`.map`);
   const mainPin = window.map.mainPin;
+  const mapPins = map.querySelectorAll(`.map__pin`);
+
+
+  window.map.renderPinsOnMap(window.data.offersList);
 
   const onClickPin = function (evt) {
     if (!evt.currentTarget.classList.contains(`map__pin--main`)) {
@@ -28,8 +30,6 @@
       window.fillCard.fill(window.data.offersList[evt.target.dataset.pinIndex]);
     }
   };
-
-  const mapPins = map.querySelectorAll(`.map__pin`);
 
   const mapUnblock = function () {
     map.classList.remove(`map--faded`);

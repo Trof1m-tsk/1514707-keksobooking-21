@@ -11,8 +11,6 @@
     `img/avatars/user07.png`,
     `img/avatars/user08.png`];
 
-  const PIN_OFFSET_X = 31;
-  const PIN_OFFSET_Y = 84;
   const PIN_X_MAX = 1200;
   const PIN_Y_MIN = 130;
   const PIN_Y_MAX = 630;
