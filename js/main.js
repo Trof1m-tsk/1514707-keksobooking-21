@@ -4,8 +4,6 @@
 
   const map = document.querySelector(`.map`);
   const mainPin = window.map.mainPin;
-  const mapPins = map.querySelectorAll(`.map__pin`);
-
 
   window.map.renderPinsOnMap(window.data.offersList);
 
@@ -46,6 +44,8 @@
     window.form.checkinSelect.addEventListener(`input`, window.form.onCheckoutChange);
     window.form.checkoutSelect.addEventListener(`input`, window.form.onCheckinChange);
   };
+
+  const mapPins = map.querySelectorAll(`.map__pin`);
 
   mainPin.addEventListener(`mousedown`, function (evt) {
     if (evt.which === 1) {
