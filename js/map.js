@@ -3,7 +3,6 @@
 (function () {
 
   const map = document.querySelector(`.map`);
-  const mapPins = map.querySelectorAll(`.map__pin`);
   const pinsList = window.pin.pinsList;
   const mainPin = window.pin.mainPin;
 
@@ -33,20 +32,19 @@
 
   const onMouseDownMainPin = function (evt) {
     if (evt.which === 1) {
-      console.log(`mouse down outside`);
       window.pin.dragPin(evt);
     }
   };
 
   const onClickPin = function (evt) {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
-        window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+      window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
     }
   };
 
   const onEnterActivePin = function (evt) {
     if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
-        window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+      window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
     }
   };
 

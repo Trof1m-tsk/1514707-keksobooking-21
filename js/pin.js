@@ -30,13 +30,13 @@
     if (pinCoodrs.x < 0) {
       pinCoodrs.x = 0;
     } else if (pinCoodrs.x > pinsList.clientWidth) {
-      pinCoodrs.x =  pinsList.clientWidth;
+      pinCoodrs.x = pinsList.clientWidth;
     }
 
-     if (pinCoodrs.y < 0) {
+    if (pinCoodrs.y < 0) {
       pinCoodrs.y = 0;
     } else if (pinCoodrs.y > pinsList.clientHeight) {
-      pinCoodrs.y =  pinsList.clientHeight;
+      pinCoodrs.y = pinsList.clientHeight;
     }
 
     return `${pinCoodrs.x}, ${pinCoodrs.y}`;
@@ -51,8 +51,6 @@
     };
 
     let dragged = false;
-
-    console.log(`mouse down inside`);
 
     const onMouseMove = function (moveEvt) {
       moveEvt.preventDefault();
@@ -79,8 +77,6 @@
         };
         mainPin.addEventListener(`click`, onClickPreventDefault);
       }
-
-      console.log(`mouse move`);
     };
 
     const onMouseUp = function (upEvt) {
@@ -88,8 +84,6 @@
 
       pinsList.removeEventListener(`mousemove`, onMouseMove);
       document.removeEventListener(`mouseup`, onMouseUp);
-
-      console.log(`mouse up`);
     };
 
     pinsList.addEventListener(`mousemove`, onMouseMove);

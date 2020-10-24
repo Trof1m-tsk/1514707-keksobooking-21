@@ -18,7 +18,7 @@
   const checkoutSelect = adForm.querySelector(`#timeout`);
   const mainPin = window.pin.mainPin;
 
-  mainPin.addEventListener(`mousemove`, function() {
+  mainPin.addEventListener(`mousemove`, function () {
     addressInput.value = window.pin.getPinCoords(mainPin);
   });
 
