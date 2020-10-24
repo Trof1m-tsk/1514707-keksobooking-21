@@ -1,8 +1,11 @@
 "use strict";
 
 (function () {
-  const pinsList = document.querySelector(`.map__pins`);
-  const mainPin = document.querySelector(`.map__pin--main`);
+
+  const map = document.querySelector(`.map`);
+  const mapPins = map.querySelectorAll(`.map__pin`);
+  const pinsList = window.pin.pinsList;
+  const mainPin = window.pin.mainPin;
 
   const renderPinsOnMap = function (dataArray) {
     const pinsFragment = document.createDocumentFragment();
@@ -16,14 +19,61 @@
     pinsList.appendChild(pinsFragment);
   };
 
-  const pinCoords = function (pinElement) {
-    return `${pinElement.offsetLeft + window.pin.pinXOffset}, ${pinElement.offsetTop + window.pin.pinXOffset}`;
+  const onClickMainPin = function (evt) {
+    if (evt.which === 1) {
+      unblockMap();
+    }
+  };
+
+  const onEnterMainPin = function (evt) {
+    if (evt.key === `Enter`) {
+      unblockMap();
+    }
+  };
+
+  const onMouseDownMainPin = function (evt) {
+    if (evt.which === 1) {
+      console.log(`mouse down outside`);
+      window.pin.dragPin(evt);
+    }
+  };
+
+  const onClickPin = function (evt) {
+    if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
+        window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+    }
+  };
+
+  const onEnterActivePin = function (evt) {
+    if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
+        window.card.createCard(window.data.offersList[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+    }
+  };
+
+  const unblockMap = function () {
+    map.classList.remove(`map--faded`);
+    window.form.adForm.classList.remove(`ad-form--disabled`);
+
+    pinsList.addEventListener(`mousedown`, onClickPin);
+    pinsList.addEventListener(`keydown`, onEnterActivePin);
+
+    mainPin.removeEventListener(`click`, onClickMainPin);
+    mainPin.removeEventListener(`keydown`, onEnterMainPin);
+    mainPin.addEventListener(`mousedown`, onMouseDownMainPin);
+
+    window.form.roomsSelect.addEventListener(`input`, window.form.onSetRoomsChangeCapacity);
+    window.form.capacitySelect.addEventListener(`input`, window.form.onChangeCapacityValidate);
+    window.form.typeSelect.addEventListener(`input`, window.form.onSetTypeChangePrice);
+    window.form.checkinSelect.addEventListener(`input`, window.form.onCheckoutChange);
+    window.form.checkoutSelect.addEventListener(`input`, window.form.onCheckinChange);
   };
 
   window.map = {
-    mainPin: mainPin,
+    map: map,
     renderPinsOnMap: renderPinsOnMap,
-    pinCoords: pinCoords
+    unblockMap: unblockMap,
+    onClickMainPin: onClickMainPin,
+    onEnterMainPin: onEnterMainPin
   };
 
 })();

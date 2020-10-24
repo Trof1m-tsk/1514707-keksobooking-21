@@ -4,9 +4,6 @@
 
   const adForm = document.querySelector(`.ad-form`);
   const addressInput = document.querySelector(`#address`);
-
-  addressInput.value = window.map.pinCoords(window.map.mainPin);
-
   const roomsSelect = adForm.querySelector(`#room_number`);
   const capacitySelect = adForm.querySelector(`#capacity`);
   const priceInput = adForm.querySelector(`#price`);
@@ -19,6 +16,11 @@
   };
   const checkinSelect = adForm.querySelector(`#timein`);
   const checkoutSelect = adForm.querySelector(`#timeout`);
+  const mainPin = window.pin.mainPin;
+
+  mainPin.addEventListener(`mousemove`, function() {
+    addressInput.value = window.pin.getPinCoords(mainPin);
+  });
 
   const onSetRoomsChangeCapacity = function (evt) {
     if (evt.target.value === `100`) {
@@ -75,6 +77,7 @@
 
   window.form = {
     adForm: adForm,
+    addressInput: addressInput,
     roomsSelect: roomsSelect,
     capacitySelect: capacitySelect,
     typeSelect: typeSelect,
