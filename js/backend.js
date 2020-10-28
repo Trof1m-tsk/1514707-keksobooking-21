@@ -3,7 +3,7 @@
 (function () {
   const load = function (onLoad, onError) {
     const URL = `https://21.javascript.pages.academy/keksobooking/data`;
-    const xhr = new XMLHttpRequest;
+    const xhr = new XMLHttpRequest();
 
     xhr.responseType = `json`;
     xhr.open(`GET`, URL);
@@ -24,4 +24,4 @@
     load: load
   };
 
-})()
+})();
