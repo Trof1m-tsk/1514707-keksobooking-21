@@ -3,6 +3,7 @@
 (function () {
 
   const adForm = document.querySelector(`.ad-form`);
+  const submitBtn = adForm.querySelector(`.ad-form__submit`);
   const addressInput = document.querySelector(`#address`);
   const roomsSelect = adForm.querySelector(`#room_number`);
   const capacitySelect = adForm.querySelector(`#capacity`);

@@ -64,36 +64,13 @@
     window.form.typeSelect.addEventListener(`input`, window.form.onSetTypeChangePrice);
     window.form.checkinSelect.addEventListener(`input`, window.form.onCheckoutChange);
     window.form.checkoutSelect.addEventListener(`input`, window.form.onCheckinChange);
+    window.form.adForm.addEventListener(`submit`, window.form.onClickSubmit);
   };
-
-  const errorHandler = function (errorMessage) {
-    const errPopup = document.createElement(`div`);
-    errPopup.style.display = `flex`;
-    errPopup.style.width = `350px`;
-    errPopup.style.height = `200px`;
-    errPopup.style.zIndex = `100`;
-    errPopup.style.margin = `0 auto`;
-    errPopup.style.alignItems = `center`;
-    errPopup.style.justifyContent = `center`;
-    errPopup.style.color = `red`;
-    errPopup.style.backgroundColor = `white`;
-    errPopup.style.border = `3px solid red`;
-    errPopup.style.borderRadius = `50px`;
-    errPopup.style.position = `absolute`;
-    errPopup.style.left = `50%`;
-    errPopup.style.top = `50%`;
-    errPopup.style.fontSize = `30px`;
-
-    errPopup.textContent = errorMessage;
-    document.body.insertAdjacentElement(`afterbegin`, errPopup);
-  };
-
-  window.backend.load(renderPinsOnMap, errorHandler);
 
   window.map = {
     map: map,
-    renderPinsOnMap: renderPinsOnMap,
     unblockMap: unblockMap,
+    renderPinsOnMap: renderPinsOnMap,
     onClickMainPin: onClickMainPin,
     onEnterMainPin: onEnterMainPin
   };
