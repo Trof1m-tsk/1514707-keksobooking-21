@@ -18,7 +18,7 @@
         window.backend.data = xhr.response;
       } else {
         onError(loadErrorMessage);
-      };
+      }
     });
 
     xhr.addEventListener(`error`, function () {
@@ -28,7 +28,7 @@
     xhr.send();
   };
 
-  const send = function(formData, onLoad, onError) {
+  const send = function (formData, onLoad, onError) {
     const xhr = new XMLHttpRequest();
 
     xhr.responseType = `json`;
