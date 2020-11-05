@@ -24,6 +24,7 @@
   };
 
   const showSuccessPopup = function () {
+    window.map.blockMap();
     main.insertBefore(successPopupTemplate.cloneNode(true), window.map.map);
     document.addEventListener(`keydown`, onEscSuccessPopup);
     document.addEventListener(`click`, hideSuccessPopup);
@@ -48,7 +49,7 @@
     main.querySelector(`.error__button`).addEventListener(`click`, hideErrorPopup);
   };
 
-  window.backend.load(window.render.renderPinsOnMap, showErrorPopup);
+  window.backend.load(showErrorPopup);
 
   window.form.adForm.addEventListener(`submit`, function (evt) {
     evt.preventDefault();

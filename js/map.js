@@ -49,6 +49,27 @@
     window.render.renderPinsOnMap(window.backend.filterData(evt.target.value));
   };
 
+  const blockMap = function () {
+    map.classList.add(`map--faded`);
+    window.form.adForm.classList.add(`ad-form--disabled`);
+
+    window.pin.pinsList.removeEventListener(`mousedown`, onClickPin);
+    window.pin.pinsList.removeEventListener(`keydown`, onEnterActivePin);
+
+    mainPin.addEventListener(`click`, onClickMainPin);
+    mainPin.addEventListener(`keydown`, onEnterMainPin);
+    mainPin.removeEventListener(`mousedown`, onMouseDownMainPin);
+
+    housingTypeFilter.removeEventListener(`input`, onChangeHousingType);
+
+    window.form.roomsSelect.removeEventListener(`input`, window.form.onSetRoomsChangeCapacity);
+    window.form.capacitySelect.removeEventListener(`input`, window.form.onChangeCapacityValidate);
+    window.form.typeSelect.removeEventListener(`input`, window.form.onSetTypeChangePrice);
+    window.form.checkinSelect.removeEventListener(`input`, window.form.onCheckoutChange);
+    window.form.checkoutSelect.removeEventListener(`input`, window.form.onCheckinChange);
+    window.form.adForm.removeEventListener(`submit`, window.form.onClickSubmit);
+  };
+
   const unblockMap = function () {
     map.classList.remove(`map--faded`);
     window.form.adForm.classList.remove(`ad-form--disabled`);
@@ -72,6 +93,7 @@
 
   window.map = {
     map: map,
+    blockMap: blockMap,
     unblockMap: unblockMap,
     onClickMainPin: onClickMainPin,
     onEnterMainPin: onEnterMainPin,
