@@ -5,7 +5,7 @@
   const filtersContainer = document.querySelector(`.map__filters-container`);
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
-  const onClickCardCross = function (evt) {
+  const onClickCardCloseBtn = function (evt) {
     if (evt.which === 1) {
       deleteCard();
     }
@@ -22,9 +22,12 @@
       map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
 
       const mapCard = map.querySelector(`.map__card`);
-      window.card.mapCard = mapCard;
+      const cardCloseBtn = mapCard.querySelector(`.popup__close`);
 
-      mapCard.addEventListener(`mousedown`, onClickCardCross);
+      window.card.mapCard = mapCard;
+      window.card.cardCloseBtn = cardCloseBtn;
+
+      cardCloseBtn.addEventListener(`mousedown`, onClickCardCloseBtn);
       document.addEventListener(`keydown`, onEscCard);
     }
 
@@ -32,7 +35,7 @@
   };
 
   const deleteCard = function () {
-    window.card.mapCard.removeEventListener(`mousedown`, onClickCardCross);
+    window.card.cardCloseBtn.removeEventListener(`mousedown`, onClickCardCloseBtn);
     document.removeEventListener(`keydown`, onEscCard);
     map.removeChild(window.card.mapCard);
   };

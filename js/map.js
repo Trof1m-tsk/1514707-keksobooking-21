@@ -46,7 +46,7 @@
       }
     });
 
-    window.render.renderPinsOnMap(window.render.getFilteredData(evt.target.value));
+    window.render.renderPinsOnMap(window.backend.filterData(evt.target.value));
   };
 
   const unblockMap = function () {

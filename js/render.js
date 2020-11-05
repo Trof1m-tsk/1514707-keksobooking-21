@@ -7,12 +7,6 @@
   const pinsList = window.pin.pinsList;
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
 
-  const getFilteredData = function (houseingType) {
-    return window.backend.data.filter(function (item) {
-      return item.offer.type === houseingType;
-    });
-  };
-
   const renderPin = function (offerData) {
     const pinElement = pinTemplate.cloneNode(true);
     const pinImage = pinElement.querySelector(`img`);
@@ -45,8 +39,7 @@
   };
 
   window.render = {
-    renderPinsOnMap: renderPinsOnMap,
-    getFilteredData: getFilteredData
+    renderPinsOnMap: renderPinsOnMap
   };
 
 })();

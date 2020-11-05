@@ -15,7 +15,7 @@
     xhr.addEventListener(`load`, function () {
       if (xhr.status === 200) {
         onLoad(xhr.response);
-        window.backend.data = xhr.response;
+        window.backend.serverData = xhr.response;
       } else {
         onError(loadErrorMessage);
       }
@@ -48,9 +48,24 @@
     xhr.send(formData);
   };
 
+  const filterData = function (houseingType) {
+    let data;
+    if (houseingType === `any`) {
+      data = window.backend.serverData;
+    } else {
+      data = window.backend.serverData.filter(function (item) {
+        return item.offer.type === houseingType;
+      });
+    }
+
+    window.backend.data = data;
+    return data;
+  };
+
   window.backend = {
     load: load,
-    send: send
+    send: send,
+    filterData: filterData
   };
 
 })();
