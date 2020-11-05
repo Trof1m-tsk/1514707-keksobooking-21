@@ -2,24 +2,10 @@
 
 (function () {
 
-  const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
   const mainPin = document.querySelector(`.map__pin--main`);
   const pinsList = document.querySelector(`.map__pins`);
   const pinXOffset = Math.floor(mainPin.clientWidth / 2);
   const pinYOffset = mainPin.clientHeight;
-
-  const renderPin = function (offerData) {
-    const pinElement = pinTemplate.cloneNode(true);
-    const pinImage = pinElement.querySelector(`img`);
-
-    pinElement.style = `left: ${offerData.location.x - pinXOffset}px;
-      top: ${offerData.location.y - pinYOffset}px;`;
-    pinElement.dataset.pinIndex = ``;
-    pinImage.src = offerData.author.avatar;
-    pinImage.alt = offerData.offer.title;
-
-    return pinElement;
-  };
 
   const getPinCoords = function () {
     const pinCoodrs = {
@@ -93,8 +79,9 @@
   window.pin = {
     mainPin: mainPin,
     pinsList: pinsList,
-    renderPin: renderPin,
     getPinCoords: getPinCoords,
+    pinXOffset: pinXOffset,
+    pinYOffset: pinYOffset,
     dragPin: dragPin
   };
 

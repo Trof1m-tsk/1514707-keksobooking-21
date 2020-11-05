@@ -3,20 +3,9 @@
 (function () {
 
   const map = document.querySelector(`.map`);
-  const pinsList = window.pin.pinsList;
   const mainPin = window.pin.mainPin;
-
-  const renderPinsOnMap = function (dataArray) {
-    const pinsFragment = document.createDocumentFragment();
-
-    dataArray.forEach(function (el, index) {
-      const pin = window.pin.renderPin(el);
-      pin.dataset.pinIndex = index;
-      pin.tabindex = index + 1;
-      pinsFragment.appendChild(pin);
-    });
-    pinsList.appendChild(pinsFragment);
-  };
+  const housingTypeFilter = document.querySelector(`#housing-type`);
+  const pinsList = window.pin.pinsList;
 
   const onClickMainPin = function (evt) {
     if (evt.which === 1) {
@@ -48,16 +37,32 @@
     }
   };
 
+  const onChangeHousingType = function(evt) {
+    const pins = pinsList.querySelectorAll(`.map__pin`);
+
+    console.log(evt.target.value);
+
+    pins.forEach( function (pin) {
+      if (!pin.classList.contains(`.map__pin--main`)) {
+        pin.remove();
+      }
+    });
+
+    window.render.renderPinsOnMap(window.render.getFilteredData(evt.target.value));
+  };
+
   const unblockMap = function () {
     map.classList.remove(`map--faded`);
     window.form.adForm.classList.remove(`ad-form--disabled`);
 
-    pinsList.addEventListener(`mousedown`, onClickPin);
-    pinsList.addEventListener(`keydown`, onEnterActivePin);
+    window.pin.pinsList.addEventListener(`mousedown`, onClickPin);
+    window.pin.pinsList.addEventListener(`keydown`, onEnterActivePin);
 
     mainPin.removeEventListener(`click`, onClickMainPin);
     mainPin.removeEventListener(`keydown`, onEnterMainPin);
     mainPin.addEventListener(`mousedown`, onMouseDownMainPin);
+
+    housingTypeFilter.addEventListener(`input`, onChangeHousingType);
 
     window.form.roomsSelect.addEventListener(`input`, window.form.onSetRoomsChangeCapacity);
     window.form.capacitySelect.addEventListener(`input`, window.form.onChangeCapacityValidate);
@@ -70,9 +75,9 @@
   window.map = {
     map: map,
     unblockMap: unblockMap,
-    renderPinsOnMap: renderPinsOnMap,
     onClickMainPin: onClickMainPin,
-    onEnterMainPin: onEnterMainPin
+    onEnterMainPin: onEnterMainPin,
+    housingTypeFilter: housingTypeFilter
   };
 
 })();
