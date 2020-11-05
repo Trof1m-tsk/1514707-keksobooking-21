@@ -37,12 +37,10 @@
     }
   };
 
-  const onChangeHousingType = function(evt) {
+  const onChangeHousingType = function (evt) {
     const pins = pinsList.querySelectorAll(`.map__pin`);
 
-    console.log(evt.target.value);
-
-    pins.forEach( function (pin) {
+    pins.forEach(function (pin) {
       if (!pin.classList.contains(`.map__pin--main`)) {
         pin.remove();
       }

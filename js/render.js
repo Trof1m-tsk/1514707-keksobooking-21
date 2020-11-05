@@ -6,7 +6,6 @@
 
   const pinsList = window.pin.pinsList;
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  const housingTypeFilter = window.map.housingTypeFilter;
 
   const getFilteredData = function (houseingType) {
     return window.backend.data.filter(function (item) {
