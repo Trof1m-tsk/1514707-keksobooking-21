@@ -2,7 +2,7 @@
 
 (function () {
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
-  const mainPin =  window.map.mainPin;
+  const mainPin = window.map.mainPin;
   const pinsList = window.map.pinsList;
   const pinXOffset = Math.floor(mainPin.clientWidth / 2);
   const pinYOffset = mainPin.clientHeight;
