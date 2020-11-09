@@ -6,7 +6,7 @@
   const sendErrorMessage = `Не удаётся зарегистрировать объявление`;
   const loadErrorMessage = `Не удаётся загрузить данные`;
 
-  const load = function (onError) {
+  const load = function (onLoad, onError) {
     const xhr = new XMLHttpRequest();
 
     xhr.responseType = `json`;
@@ -14,9 +14,7 @@
 
     xhr.addEventListener(`load`, function () {
       if (xhr.status === 200) {
-        window.backend.serverData = xhr.response;
-        window.backend.data = xhr.response;
-        window.render.renderPinsOnMap(xhr.response);
+        onLoad(window.backend.data = xhr.response);
       } else {
         onError(loadErrorMessage);
       }
@@ -49,24 +47,9 @@
     xhr.send(formData);
   };
 
-  const filterData = function (housingType) {
-    let filteredData;
-    if (housingType === `any`) {
-      filteredData = window.backend.serverData;
-    } else {
-      filteredData = window.backend.serverData.filter(function (item) {
-        return item.offer.type === housingType;
-      });
-    }
-    window.backend.data = filteredData;
-
-    return filteredData;
-  };
-
   window.backend = {
     load: load,
-    send: send,
-    filterData: filterData
+    send: send
   };
 
 })();

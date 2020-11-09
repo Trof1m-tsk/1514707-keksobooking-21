@@ -1,11 +1,10 @@
 "use strict";
 
 (function () {
-
   const main = document.querySelector(`main`);
   const successPopupTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorPopupTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
-  const mainPin = window.pin.mainPin;
+  const mainPin = window.map.mainPin;
 
   mainPin.addEventListener(`click`, window.map.onClickMainPin);
   mainPin.addEventListener(`keydown`, window.map.onEnterMainPin);
@@ -49,7 +48,7 @@
     main.querySelector(`.error__button`).addEventListener(`click`, hideErrorPopup);
   };
 
-  window.backend.load(showErrorPopup);
+  window.backend.load(window.pins.renderPinsOnMap ,showErrorPopup);
 
   window.form.adForm.addEventListener(`submit`, function (evt) {
     evt.preventDefault();

@@ -1,7 +1,6 @@
 "use strict";
 
 (function () {
-
   const adForm = document.querySelector(`.ad-form`);
   const addressInput = document.querySelector(`#address`);
   const roomsSelect = adForm.querySelector(`#room_number`);
@@ -16,10 +15,10 @@
   };
   const checkinSelect = adForm.querySelector(`#timein`);
   const checkoutSelect = adForm.querySelector(`#timeout`);
-  const mainPin = window.pin.mainPin;
+  const mainPin = window.map.mainPin;
 
   mainPin.addEventListener(`mousemove`, function () {
-    addressInput.value = window.pin.getPinCoords(mainPin);
+    addressInput.value = window.pins.getPinCoords(mainPin);
   });
 
   const onSetRoomsChangeCapacity = function (evt) {
@@ -75,19 +74,30 @@
     checkinSelect.querySelector(`option[value="${evt.target.value}"]`).selected = `selected`;
   };
 
+  const putListenersOnBlockMap = function () {
+    adForm.classList.add(`ad-form--disabled`);
+    roomsSelect.removeEventListener(`input`, onSetRoomsChangeCapacity);
+    capacitySelect.removeEventListener(`input`, onChangeCapacityValidate);
+    typeSelect.removeEventListener(`input`, onSetTypeChangePrice);
+    checkinSelect.removeEventListener(`input`, onCheckoutChange);
+    checkoutSelect.removeEventListener(`input`, onCheckinChange);
+  };
+
+  const putListenersOnUnblockMap = function () {
+    adForm.classList.remove(`ad-form--disabled`);
+    roomsSelect.addEventListener(`input`, onSetRoomsChangeCapacity);
+    capacitySelect.addEventListener(`input`, onChangeCapacityValidate);
+    typeSelect.addEventListener(`input`, onSetTypeChangePrice);
+    checkinSelect.addEventListener(`input`, onCheckoutChange);
+    checkoutSelect.addEventListener(`input`, onCheckinChange);
+  };
+
+
   window.form = {
     adForm: adForm,
-    addressInput: addressInput,
-    roomsSelect: roomsSelect,
-    capacitySelect: capacitySelect,
-    typeSelect: typeSelect,
-    checkinSelect: checkinSelect,
-    checkoutSelect: checkoutSelect,
-    onSetRoomsChangeCapacity: onSetRoomsChangeCapacity,
-    onChangeCapacityValidate: onChangeCapacityValidate,
-    onSetTypeChangePrice: onSetTypeChangePrice,
-    onCheckoutChange: onCheckoutChange,
-    onCheckinChange: onCheckinChange
+    putListenersOnBlockMap: putListenersOnBlockMap,
+    putListenersOnUnblockMap: putListenersOnUnblockMap,
+    addressInput: addressInput
   };
 
 })();
