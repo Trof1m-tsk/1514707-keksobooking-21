@@ -6,12 +6,11 @@
 
   const filterData = function (data) {
 
-    housingTypeFilter.value === `any` ?
-      (filteredData = data) :
-      (filteredData = data.filter(function (item) {
+    filteredData = (housingTypeFilter.value === `any`) ?
+      data :
+      data.filter(function (item) {
         return item.offer.type === housingTypeFilter.value;
-      })
-      );
+      });
 
     return filteredData;
   };
