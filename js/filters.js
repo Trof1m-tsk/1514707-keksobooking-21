@@ -7,18 +7,18 @@
 
   const filterData = function (initialData) {
 
-    housingTypeFilter.value === `any` ?
-      filteredData = initialData :
-      filteredData = initialData.filter(function (item) {
+    (housingTypeFilter.value === `any`) ?
+      (filteredData = initialData) :
+      (filteredData = initialData.filter(function (item) {
         return item.offer.type === housingTypeFilter.value;
-      });
+      })
+      );
 
     return filteredData;
   };
 
   window.filters = {
-    filterData: filterData,
-    initialData: initialData
+    filterData: filterData
   };
 
 })();
