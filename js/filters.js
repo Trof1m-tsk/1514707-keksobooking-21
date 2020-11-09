@@ -2,14 +2,13 @@
 
 (function () {
   const housingTypeFilter = document.querySelector(`#housing-type`);
-  let initialData;
   let filteredData;
 
-  const filterData = function (initialData) {
+  const filterData = function (data) {
 
-    (housingTypeFilter.value === `any`) ?
-      (filteredData = initialData) :
-      (filteredData = initialData.filter(function (item) {
+    housingTypeFilter.value === `any` ?
+      (filteredData = data) :
+      (filteredData = data.filter(function (item) {
         return item.offer.type === housingTypeFilter.value;
       })
       );
