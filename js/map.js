@@ -15,7 +15,7 @@
       }
     });
 
-    window.pins.renderPinsOnMap(window.filters.filterData(window.filters.data));
+    window.pins.renderPinsOnMap(window.filters.filterData(window.filters.initialData));
   };
 
   const onClickMainPin = function (evt) {

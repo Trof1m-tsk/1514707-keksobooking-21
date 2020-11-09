@@ -50,7 +50,7 @@
 
   const loadData = function (data) {
     window.pins.renderPinsOnMap(data);
-    window.filters.data = data;
+    window.filters.initialData = data;
   };
 
   window.backend.load(loadData, showErrorPopup);
