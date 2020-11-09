@@ -48,7 +48,7 @@
     main.querySelector(`.error__button`).addEventListener(`click`, hideErrorPopup);
   };
 
-  window.backend.load(window.pins.renderPinsOnMap ,showErrorPopup);
+  window.backend.load(window.pins.renderPinsOnMap, showErrorPopup);
 
   window.form.adForm.addEventListener(`submit`, function (evt) {
     evt.preventDefault();

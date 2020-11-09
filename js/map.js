@@ -6,7 +6,7 @@
   const housingTypeFilter = document.querySelector(`#housing-type`);
   const pinsList = document.querySelector(`.map__pins`);
 
-  const onChangeHousingType = function (evt) {
+  const onChangeHousingType = function () {
     const pins = pinsList.querySelectorAll(`.map__pin`);
 
     pins.forEach(function (pin) {
@@ -32,7 +32,7 @@
 
   const onMouseDownMainPin = function (evt) {
     if (evt.which === 1) {
-      dragPin(evt);
+      window.pins.dragPin(evt);
     }
   };
 
