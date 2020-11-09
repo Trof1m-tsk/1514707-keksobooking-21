@@ -24,10 +24,7 @@
       const mapCard = map.querySelector(`.map__card`);
       const cardCloseBtn = mapCard.querySelector(`.popup__close`);
 
-      window.card.mapCard = mapCard;
-      window.card.cardCloseBtn = cardCloseBtn;
-
-      cardCloseBtn.addEventListener(`mousedown`, onClickCardCloseBtn);
+      cardCloseBtn.addEventListener(`click`, onClickCardCloseBtn);
       document.addEventListener(`keydown`, onEscCard);
     }
 
@@ -35,9 +32,12 @@
   };
 
   const deleteCard = function () {
-    window.card.cardCloseBtn.removeEventListener(`mousedown`, onClickCardCloseBtn);
+    const mapCard = map.querySelector(`.map__card`);
+    const cardCloseBtn = mapCard.querySelector(`.popup__close`);
+
+    cardCloseBtn.removeEventListener(`click`, onClickCardCloseBtn);
     document.removeEventListener(`keydown`, onEscCard);
-    map.removeChild(window.card.mapCard);
+    map.removeChild(mapCard);
   };
 
   const getCapacityString = function (rooms, guests) {
@@ -78,7 +78,7 @@
   };
 
   const fillCard = function (offerData) {
-    const card = window.card.mapCard;
+    const card = map.querySelector(`.map__card`);
 
     const housingType = document.querySelector(`option[value="${offerData.offer.type}"]`).textContent;
     const popupAvatar = card.querySelector(`.popup__avatar`);

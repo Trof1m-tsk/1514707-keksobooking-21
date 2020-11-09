@@ -14,7 +14,7 @@
 
     xhr.addEventListener(`load`, function () {
       if (xhr.status === 200) {
-        onLoad(window.backend.data = xhr.response);
+        onLoad(xhr.response);
       } else {
         onError(loadErrorMessage);
       }

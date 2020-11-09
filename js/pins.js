@@ -105,13 +105,13 @@
 
   const onClickPin = function (evt) {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
-      window.card.createCard(window.filters.filterData()[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+      window.card.createCard(window.filters.filterData(window.filters.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]);
     }
   };
 
   const onEnterActivePin = function (evt) {
     if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
-      window.card.createCard(window.filters.filterData()[evt.target.closest(`.map__pin`).dataset.pinIndex]);
+      window.card.createCard(window.filters.filterData(window.filters.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]);
     }
   };
 

@@ -6,7 +6,7 @@
   const housingTypeFilter = document.querySelector(`#housing-type`);
   const pinsList = document.querySelector(`.map__pins`);
 
-  const onChangeHousingType = function () {
+  const onChangeFilter = function () {
     const pins = pinsList.querySelectorAll(`.map__pin`);
 
     pins.forEach(function (pin) {
@@ -15,7 +15,7 @@
       }
     });
 
-    window.pins.renderPinsOnMap(window.filters.filterData());
+    window.pins.renderPinsOnMap(window.filters.filterData(window.filters.data));
   };
 
   const onClickMainPin = function (evt) {
@@ -40,14 +40,14 @@
     map.classList.add(`map--faded`);
     window.pins.putListenersOnBlockMap();
     window.form.putListenersOnBlockMap();
-    housingTypeFilter.removeEventListener(`input`, onChangeHousingType);
+    housingTypeFilter.removeEventListener(`input`, onChangeFilter);
   };
 
   const unblockMap = function () {
     map.classList.remove(`map--faded`);
     window.pins.putListenersOnUnblockMap();
     window.form.putListenersOnUnblockMap();
-    housingTypeFilter.addEventListener(`input`, onChangeHousingType);
+    housingTypeFilter.addEventListener(`input`, onChangeFilter);
   };
 
   window.map = {

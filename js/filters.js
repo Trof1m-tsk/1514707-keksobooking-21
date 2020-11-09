@@ -2,23 +2,23 @@
 
 (function () {
   const housingTypeFilter = document.querySelector(`#housing-type`);
+  let data;
+  let filteredData;
 
-  const filterData = function () {
-    let filteredData;
+  const filterData = function (data) {
 
-    if (housingTypeFilter.value === `any`) {
-      filteredData = window.backend.data;
-    } else {
-      filteredData = window.backend.data.filter(function (item) {
-        return item.offer.type === housingTypeFilter.value;
-      });
-    }
+    (housingTypeFilter.value === `any`) ?
+        filteredData = data :
+        filteredData = data.filter(function (item) {
+          return item.offer.type === housingTypeFilter.value;
+        });
 
     return filteredData;
   };
 
   window.filters = {
-    filterData: filterData
+    filterData: filterData,
+    data: data
   };
 
 })();
