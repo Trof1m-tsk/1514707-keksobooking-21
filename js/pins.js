@@ -2,8 +2,9 @@
 
 (function () {
   const pinTemplate = document.querySelector(`#pin`).content.querySelector(`.map__pin`);
+  const map = window.map.map;
   const mainPin = window.map.mainPin;
-  const pinsList = window.map.pinsList;
+  const pinsList = document.querySelector(`.map__pins`);
   const pinXOffset = Math.floor(mainPin.clientWidth / 2);
   const pinYOffset = mainPin.clientHeight;
 
@@ -103,38 +104,64 @@
     pinsList.appendChild(pinsFragment);
   };
 
-  const onClickPin = function (evt) {
+  const onMainPinEnter = function (evt) {
+    if (evt.key === `Enter`) {
+      window.map.unblockMap();
+    }
+  };
+
+  const onMainPinMouseDown = function (evt) {
+    if (evt.which === 1) {
+      if (map.classList.contains(`map--faded`)) {
+        window.map.unblockMap();
+      }
+
+      dragPin(evt);
+    }
+  };
+
+  const onPinClick = function (evt) {
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
-      window.card.createCard(
+      window.card.renderCard(
           window.filters.filterData(
-              window.filters.initialData)[evt.target.closest(`.map__pin`).dataset.pinIndex]
+            window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
       );
     }
   };
 
-  const onEnterActivePin = function (evt) {
+  const onActivePinEnter = function (evt) {
     if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
-      window.card.createCard(
+      window.card.renderCard(
           window.filters.filterData(
-              window.filters.initialData)[evt.target.closest(`.map__pin`).dataset.pinIndex]
+            window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
       );
     }
   };
 
   const putListenersOnBlockMap = function () {
-    pinsList.removeEventListener(`mousedown`, onClickPin);
-    pinsList.removeEventListener(`keydown`, onEnterActivePin);
-    mainPin.addEventListener(`click`, window.map.onClickMainPin);
-    mainPin.addEventListener(`keydown`, window.map.onEnterMainPin);
-    mainPin.removeEventListener(`mousedown`, window.map.onMouseDownMainPin);
+    pinsList.removeEventListener(`mousedown`, onPinClick);
+    pinsList.removeEventListener(`keydown`, onActivePinEnter);
+    mainPin.addEventListener(`keydown`, onMainPinEnter);
   };
 
   const putListenersOnUnblockMap = function () {
-    pinsList.addEventListener(`mousedown`, onClickPin);
-    pinsList.addEventListener(`keydown`, onEnterActivePin);
-    mainPin.removeEventListener(`click`, window.map.onClickMainPin);
-    mainPin.removeEventListener(`keydown`, window.map.onEnterMainPin);
-    mainPin.addEventListener(`mousedown`, window.map.onMouseDownMainPin);
+    pinsList.addEventListener(`mousedown`, onPinClick);
+    pinsList.addEventListener(`keydown`, onActivePinEnter);
+    mainPin.removeEventListener(`keydown`, onMainPinEnter);
+  };
+
+  mainPin.addEventListener(`mousedown`, onMainPinMouseDown);
+
+  const updatePins = function () {
+    const pins = pinsList.querySelectorAll(`.map__pin`);
+
+    pins.forEach(function (pin) {
+      if (!pin.classList.contains(`map__pin--main`)) {
+        pin.remove();
+      }
+    });
+
+    renderPinsOnMap(window.filters.filterData(window.backend.data));
   };
 
   window.pins = {
@@ -142,9 +169,9 @@
     putListenersOnUnblockMap: putListenersOnUnblockMap,
     getPinCoords: getPinCoords,
     renderPinsOnMap: renderPinsOnMap,
+    updatePins: updatePins,
     pinXOffset: pinXOffset,
-    pinYOffset: pinYOffset,
-    dragPin: dragPin
+    pinYOffset: pinYOffset
   };
 
 })();

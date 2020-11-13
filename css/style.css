@@ -1130,7 +1130,10 @@ fieldset {
 .popup__photo {
   margin-right: 5px;
   margin-bottom: 5px;
+  width: 45px;
+  height: 40px;
 }
+
 
 .popup__photo:hover {
   border: 2px solid #ff5635;
@@ -1246,3 +1249,5 @@ fieldset {
 .hidden {
   display: none;
 }
+
+

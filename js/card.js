@@ -5,8 +5,8 @@
   const filtersContainer = document.querySelector(`.map__filters-container`);
   const cardTemplate = document.querySelector(`#card`).content.querySelector(`.map__card`);
 
-  const onClickCardCloseBtn = function (evt) {
-    if (evt.which === 1) {
+  const onCardCloseBtnClick = function (evt) {
+    if (evt.target.matches(`.popup__close`) && evt.which === 1) {
       deleteCard();
     }
   };
@@ -17,25 +17,19 @@
     }
   };
 
-  const createCard = function (data) {
+  const renderCard = function (data) {
     if (!map.querySelector(`.map__card`)) {
       map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
-
-      const mapCard = map.querySelector(`.map__card`);
-      const cardCloseBtn = mapCard.querySelector(`.popup__close`);
-
-      cardCloseBtn.addEventListener(`click`, onClickCardCloseBtn);
+      map.addEventListener(`click`, onCardCloseBtnClick);
       document.addEventListener(`keydown`, onEscCard);
     }
 
-    fillCard(data);
+    rednderCardElement(data);
   };
 
   const deleteCard = function () {
     const mapCard = map.querySelector(`.map__card`);
-    const cardCloseBtn = mapCard.querySelector(`.popup__close`);
-
-    cardCloseBtn.removeEventListener(`click`, onClickCardCloseBtn);
+    map.removeEventListener(`click`, onCardCloseBtnClick);
     document.removeEventListener(`keydown`, onEscCard);
     map.removeChild(mapCard);
   };
@@ -63,12 +57,11 @@
   const createPhotosFragment = function (photosList) {
     const photosFragment = document.createDocumentFragment();
 
-    photosList.forEach(function (photo) {
+    photosList.forEach(function (photo, index) {
       const photoItem = document.createElement(`img`);
-      photoItem.className = `popup__photo`;
-      photoItem.width = 45;
-      photoItem.height = 40;
-      photoItem.alt = `Фотография жилья`;
+
+      photoItem.classList.add(`popup__photo`);
+      photoItem.alt = `Фотография жилья ${index + 1}`;
       photoItem.src = photo;
 
       photosFragment.appendChild(photoItem);
@@ -77,7 +70,7 @@
     return photosFragment;
   };
 
-  const fillCard = function (offerData) {
+  const rednderCardElement = function (offerData) {
     const card = map.querySelector(`.map__card`);
 
     const housingType = document.querySelector(`option[value="${offerData.offer.type}"]`).textContent;
@@ -101,7 +94,8 @@
     popupTime.textContent = `Заезд после ${offerData.offer.checkin} выезд до ${offerData.offer.checkout}`;
 
     popupFeaturesList.forEach(function (item) {
-      if (!offerData.offer.features.includes(item.id)) {
+      item.classList.remove(`visually-hidden`);
+      if (offerData.offer.features.indexOf(item.id) === -1) {
         item.classList.add(`visually-hidden`);
       }
     });
@@ -112,7 +106,7 @@
   };
 
   window.card = {
-    createCard: createCard,
+    renderCard: renderCard,
     deleteCard: deleteCard
   };
 
