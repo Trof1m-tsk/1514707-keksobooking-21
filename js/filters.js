@@ -50,7 +50,7 @@
 
     if (roomsFilter.value !== `any`) {
       filteredData = filteredData.filter(function (item) {
-        return item.offer.rooms === parseInt(roomsFilter.value);
+        return item.offer.rooms === parseInt(roomsFilter.value, 10);
       });
     }
 
@@ -63,7 +63,7 @@
     featuresCheckboxes.forEach(function (checkbox) {
       if (checkbox.checked) {
         filteredData = filteredData.filter(function (item) {
-          return item.offer.features.indexOf(checkbox.value, 10) !== -1;
+          return item.offer.features.indexOf(checkbox.value) !== -1;
         });
       }
 
