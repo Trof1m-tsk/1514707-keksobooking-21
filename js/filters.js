@@ -50,13 +50,13 @@
 
     if (roomsFilter.value !== `any`) {
       filteredData = filteredData.filter(function (item) {
-        return item.offer.rooms == roomsFilter.value;
+        return item.offer.rooms === parseInt(roomsFilter.value);
       });
     }
 
     if (guestsFilter.value !== `any`) {
       filteredData = filteredData.filter(function (item) {
-        return item.offer.guests == guestsFilter.value;
+        return item.offer.guests === parseInt(guestsFilter.value);
       });
     }
 

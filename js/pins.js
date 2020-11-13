@@ -124,7 +124,7 @@
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
       window.card.renderCard(
           window.filters.filterData(
-            window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
+              window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
       );
     }
   };
@@ -133,7 +133,7 @@
     if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
       window.card.renderCard(
           window.filters.filterData(
-            window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
+              window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
       );
     }
   };
