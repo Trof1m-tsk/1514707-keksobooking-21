@@ -98,10 +98,10 @@
   });
 
   window.form = {
-    adForm: adForm,
-    putListenersOnBlockMap: putListenersOnBlockMap,
-    putListenersOnUnblockMap: putListenersOnUnblockMap,
-    addressInput: addressInput
+    adForm,
+    putListenersOnBlockMap,
+    putListenersOnUnblockMap,
+    addressInput
   };
 
 })();

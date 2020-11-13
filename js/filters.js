@@ -1,15 +1,13 @@
 "use strict";
 
 (function () {
-  const filters = document.querySelector('.map__filters');
+  const filters = document.querySelector(`.map__filters`);
   const typeFilter = document.querySelector(`#housing-type`);
   const priceFilter = document.querySelector(`#housing-price`);
   const roomsFilter = document.querySelector(`#housing-rooms`);
   const guestsFilter = document.querySelector(`#housing-guests`);
   const featuresFilter = document.querySelector(`#housing-features`);
   const featuresCheckboxes = featuresFilter.querySelectorAll(`.map__checkbox`);
-
-  const pinsList = document.querySelector(`.map__pins`);
 
   const onFilterChange = window.debounce(function () {
     window.pins.updatePins();
@@ -25,7 +23,9 @@
 
   const filterData = function (data) {
     let filteredData = (typeFilter.value === `any`) ?
-      data:
+      data :
+
+
       data.filter(function (item) {
         return item.offer.type === typeFilter.value;
       });
@@ -46,21 +46,21 @@
           return item.offer.price > 50000;
         });
         break;
-    };
+    }
 
     if (roomsFilter.value !== `any`) {
       filteredData = filteredData.filter(function (item) {
-          return item.offer.rooms == roomsFilter.value;
-        });
+        return item.offer.rooms == roomsFilter.value;
+      });
     }
 
     if (guestsFilter.value !== `any`) {
       filteredData = filteredData.filter(function (item) {
-          return item.offer.guests == guestsFilter.value;
-        });
+        return item.offer.guests == guestsFilter.value;
+      });
     }
 
-    featuresCheckboxes.forEach(function(checkbox) {
+    featuresCheckboxes.forEach(function (checkbox) {
       if (checkbox.checked) {
         filteredData = filteredData.filter(function (item) {
           return item.offer.features.indexOf(checkbox.value) !== -1;
@@ -74,9 +74,9 @@
   };
 
   window.filters = {
-    filterData: filterData,
-    addFiltersListeners: addFiltersListeners,
-    removeFiltersListeners: removeFiltersListeners
+    filterData,
+    addFiltersListeners,
+    removeFiltersListeners
   };
 
 })();

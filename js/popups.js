@@ -36,8 +36,7 @@
     main.removeChild(main.querySelector(`.error`));
   };
 
-  const showErrorPopup = function (errorText/*, evt*/) {
-    //evt.preventDefault();
+  const showErrorPopup = function (errorText) {
     main.insertBefore(errorPopupTemplate.cloneNode(true), window.map.map);
     main.querySelector(`.error__message`).textContent = errorText;
     document.addEventListener(`keydown`, onEscErrorPopup);
@@ -45,8 +44,8 @@
   };
 
   window.popups = {
-    showSuccessPopup: showSuccessPopup,
-    showErrorPopup: showErrorPopup
+    showSuccessPopup,
+    showErrorPopup
   };
 
 })();

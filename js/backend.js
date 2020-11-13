@@ -49,8 +49,8 @@
   };
 
   window.backend = {
-    load: load,
-    send: send
+    load,
+    send
   };
 
 })();

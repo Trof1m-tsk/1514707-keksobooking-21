@@ -165,13 +165,13 @@
   };
 
   window.pins = {
-    putListenersOnBlockMap: putListenersOnBlockMap,
-    putListenersOnUnblockMap: putListenersOnUnblockMap,
-    getPinCoords: getPinCoords,
-    renderPinsOnMap: renderPinsOnMap,
-    updatePins: updatePins,
-    pinXOffset: pinXOffset,
-    pinYOffset: pinYOffset
+    putListenersOnBlockMap,
+    putListenersOnUnblockMap,
+    getPinCoords,
+    renderPinsOnMap,
+    updatePins,
+    pinXOffset,
+    pinYOffset
   };
 
 })();

@@ -16,8 +16,8 @@
   };
 
   window.utils = {
-    getRandomNumber: getRandomNumber,
-    createRandomList: createRandomList
+    getRandomNumber,
+    createRandomList
   };
 
 })();

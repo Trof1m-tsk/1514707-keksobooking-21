@@ -1,7 +1,6 @@
 "use strict";
 
 (function () {
-  const main = document.querySelector(`main`);
   const mainPin = window.map.mainPin;
 
   mainPin.addEventListener(`click`, window.map.onClickMainPin);

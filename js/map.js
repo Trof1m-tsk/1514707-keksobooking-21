@@ -19,10 +19,10 @@
   };
 
   window.map = {
-    map: map,
-    mainPin: mainPin,
-    blockMap: blockMap,
-    unblockMap: unblockMap
+    map,
+    mainPin,
+    blockMap,
+    unblockMap
   };
 
 })();

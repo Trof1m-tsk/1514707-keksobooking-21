@@ -106,8 +106,8 @@
   };
 
   window.card = {
-    renderCard: renderCard,
-    deleteCard: deleteCard
+    renderCard,
+    deleteCard
   };
 
 })();
