@@ -1,7 +1,6 @@
 "use strict";
 
 (function () {
-
   const adForm = document.querySelector(`.ad-form`);
   const addressInput = document.querySelector(`#address`);
   const roomsSelect = adForm.querySelector(`#room_number`);
@@ -16,13 +15,13 @@
   };
   const checkinSelect = adForm.querySelector(`#timein`);
   const checkoutSelect = adForm.querySelector(`#timeout`);
-  const mainPin = window.pin.mainPin;
+  const mainPin = window.map.mainPin;
 
   mainPin.addEventListener(`mousemove`, function () {
-    addressInput.value = window.pin.getPinCoords(mainPin);
+    addressInput.value = window.pins.getPinCoords(mainPin);
   });
 
-  const onSetRoomsChangeCapacity = function (evt) {
+  const onRoomsChangeCapacity = function (evt) {
     if (evt.target.value === `100`) {
       capacitySelect.querySelector(`option[value="0"]`).selected = `selected`;
     } else if (evt.target.value === `3`) {
@@ -34,7 +33,7 @@
     }
   };
 
-  const onChangeCapacityValidate = function (evt) {
+  const onCapacityChange = function (evt) {
     if (roomsSelect.value === `100` && evt.target.value !== `0`) {
       capacitySelect.setCustomValidity(`Не для гостей`);
     } else if (roomsSelect.value === `3` && evt.target.value === `0`) {
@@ -51,7 +50,7 @@
     capacitySelect.reportValidity();
   };
 
-  const onSetTypeChangePrice = function (evt) {
+  const onTypeChangePrice = function (evt) {
     if (evt.target.value === `bungalow`) {
       priceInput.min = minPrices.bungalow;
       priceInput.placeholder = minPrices.bungalow;
@@ -75,19 +74,34 @@
     checkinSelect.querySelector(`option[value="${evt.target.value}"]`).selected = `selected`;
   };
 
+  const putListenersOnBlockMap = function () {
+    adForm.classList.add(`ad-form--disabled`);
+    roomsSelect.removeEventListener(`input`, onRoomsChangeCapacity);
+    capacitySelect.removeEventListener(`input`, onCapacityChange);
+    typeSelect.removeEventListener(`input`, onTypeChangePrice);
+    checkinSelect.removeEventListener(`input`, onCheckoutChange);
+    checkoutSelect.removeEventListener(`input`, onCheckinChange);
+  };
+
+  const putListenersOnUnblockMap = function () {
+    adForm.classList.remove(`ad-form--disabled`);
+    roomsSelect.addEventListener(`input`, onRoomsChangeCapacity);
+    capacitySelect.addEventListener(`input`, onCapacityChange);
+    typeSelect.addEventListener(`input`, onTypeChangePrice);
+    checkinSelect.addEventListener(`input`, onCheckoutChange);
+    checkoutSelect.addEventListener(`input`, onCheckinChange);
+  };
+
+  adForm.addEventListener(`submit`, function (evt) {
+    evt.preventDefault();
+    window.backend.send(adForm, window.popups.showSuccessPopup, window.popups.showErrorPopup);
+  });
+
   window.form = {
-    adForm: adForm,
-    addressInput: addressInput,
-    roomsSelect: roomsSelect,
-    capacitySelect: capacitySelect,
-    typeSelect: typeSelect,
-    checkinSelect: checkinSelect,
-    checkoutSelect: checkoutSelect,
-    onSetRoomsChangeCapacity: onSetRoomsChangeCapacity,
-    onChangeCapacityValidate: onChangeCapacityValidate,
-    onSetTypeChangePrice: onSetTypeChangePrice,
-    onCheckoutChange: onCheckoutChange,
-    onCheckinChange: onCheckinChange
+    adForm,
+    putListenersOnBlockMap,
+    putListenersOnUnblockMap,
+    addressInput
   };
 
 })();
