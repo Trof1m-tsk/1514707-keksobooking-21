@@ -89,10 +89,10 @@
     });
   };
 
-  const resetPage = function() {
+  const resetPage = function () {
     if (window.map.map.querySelector(`.map__card`)) {
       window.card.deleteCard();
-    };
+    }
 
     window.map.blockMap();
     window.filters.filters.reset();

@@ -6,7 +6,6 @@
   const priceFilter = document.querySelector(`#housing-price`);
   const roomsFilter = document.querySelector(`#housing-rooms`);
   const guestsFilter = document.querySelector(`#housing-guests`);
-  const featuresFilter = document.querySelector(`#housing-features`);
   const featuresBar = document.querySelector(`.map__features`);
   const wifi = featuresBar.querySelector(`#filter-wifi`);
   const dishwasher = featuresBar.querySelector(`#filter-dishwasher`);
