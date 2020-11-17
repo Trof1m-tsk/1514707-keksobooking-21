@@ -3,7 +3,7 @@
 (function () {
   const DEBOUNCE_TIME = 500;
 
-  window.debounce = function (callback) {
+  window.createDebounce = function (callback) {
     let activeTimeout;
 
     return function () {

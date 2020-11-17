@@ -6,6 +6,7 @@
 
   const blockMap = function () {
     map.classList.add(`map--faded`);
+    window.form.blockFields();
     window.pins.putListenersOnBlockMap();
     window.form.putListenersOnBlockMap();
     window.filters.removeFiltersListeners();
@@ -13,6 +14,7 @@
 
   const unblockMap = function () {
     map.classList.remove(`map--faded`);
+    window.form.unblockFields();
     window.pins.putListenersOnUnblockMap();
     window.form.putListenersOnUnblockMap();
     window.filters.addFiltersListeners();

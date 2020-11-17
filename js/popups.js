@@ -1,7 +1,7 @@
 "use strict";
 
 (function () {
-  const main = document.querySelector(`main`);
+  const main = document.querySelector(`.main`);
   const successPopupTemplate = document.querySelector(`#success`).content.querySelector(`.success`);
   const errorPopupTemplate = document.querySelector(`#error`).content.querySelector(`.error`);
 
@@ -18,29 +18,35 @@
   };
 
   const showSuccessPopup = function () {
-    window.map.blockMap();
     main.insertBefore(successPopupTemplate.cloneNode(true), window.map.map);
     document.addEventListener(`keydown`, onEscSuccessPopup);
     document.addEventListener(`click`, hideSuccessPopup);
   };
 
   const onEscErrorPopup = function (evt) {
-    if (evt.key === `Escape`) {
+    if (evt.key === `Enter`) {
+      evt.preventDefault();
+    } else if (evt.key === `Escape`) {
       hideErrorPopup();
     }
   };
 
   const hideErrorPopup = function () {
     document.removeEventListener(`keydown`, onEscErrorPopup);
-    main.querySelector(`.error__button`).removeEventListener(`click`, hideErrorPopup);
+    document.removeEventListener(`click`, hideErrorPopup);
     main.removeChild(main.querySelector(`.error`));
   };
 
-  const showErrorPopup = function (errorText) {
+  const showErrorPopup = function (errorText, buttonText) {
     main.insertBefore(errorPopupTemplate.cloneNode(true), window.map.map);
     main.querySelector(`.error__message`).textContent = errorText;
+
+    if (buttonText) {
+      main.querySelector(`.error__button`).textContent = buttonText;
+    }
+
     document.addEventListener(`keydown`, onEscErrorPopup);
-    main.querySelector(`.error__button`).addEventListener(`click`, hideErrorPopup);
+    document.addEventListener(`click`, hideErrorPopup);
   };
 
   window.popups = {

@@ -5,25 +5,21 @@
   const map = window.map.map;
   const mainPin = window.map.mainPin;
   const pinsList = document.querySelector(`.map__pins`);
-  const pinXOffset = Math.floor(mainPin.clientWidth / 2);
-  const pinYOffset = mainPin.clientHeight;
+  const pinXOffset = 32;
+  const pinYOffset = 85;
+  const MAP_Y_LIMIT = {min: 130, max: 630};
+  const MAP_X_LIMIT = {min: 0, max: pinsList.clientWidth};
 
   const getPinCoords = function () {
     const pinCoodrs = {
       x: mainPin.offsetLeft + pinXOffset,
-      y: mainPin.offsetTop + pinXOffset
+      y: mainPin.offsetTop + pinYOffset
     };
 
-    if (pinCoodrs.x < 0) {
-      pinCoodrs.x = 0;
-    } else if (pinCoodrs.x > pinsList.clientWidth) {
-      pinCoodrs.x = pinsList.clientWidth;
-    }
-
-    if (pinCoodrs.y < 0) {
-      pinCoodrs.y = 0;
-    } else if (pinCoodrs.y > pinsList.clientHeight) {
-      pinCoodrs.y = pinsList.clientHeight;
+    if (mainPin.offsetTop + pinYOffset < MAP_Y_LIMIT.min) {
+      pinCoodrs.y = MAP_Y_LIMIT.min;
+    } else if (mainPin.offsetTop + pinYOffset > MAP_Y_LIMIT.max) {
+      pinCoodrs.y = MAP_Y_LIMIT.max;
     }
 
     return `${pinCoodrs.x}, ${pinCoodrs.y}`;
@@ -54,8 +50,15 @@
         y: moveEvt.clientY
       };
 
+      if (mainPin.offsetLeft - shift.x <= MAP_X_LIMIT.min - pinXOffset) {
+        mainPin.style.left = (MAP_X_LIMIT.min) + `px`;
+      } else if (mainPin.offsetLeft - shift.x >= MAP_X_LIMIT.max - pinXOffset) {
+        mainPin.style.left = (MAP_X_LIMIT.max - pinXOffset) + `px`;
+      } else {
+        mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
+      }
+
       mainPin.style.top = (mainPin.offsetTop - shift.y) + `px`;
-      mainPin.style.left = (mainPin.offsetLeft - shift.x) + `px`;
 
       if (dragged) {
         const onClickPreventDefault = function (clickEvt) {
@@ -104,9 +107,19 @@
     pinsList.appendChild(pinsFragment);
   };
 
+  const removePins = function () {
+    const pins = pinsList.querySelectorAll(`.map__pin`);
+    pins.forEach(function (pin) {
+      if (!pin.classList.contains(`map__pin--main`)) {
+        pin.remove();
+      }
+    });
+  };
+
   const onMainPinEnter = function (evt) {
     if (evt.key === `Enter`) {
       window.map.unblockMap();
+      window.pins.renderPinsOnMap(window.backend.data);
     }
   };
 
@@ -114,6 +127,7 @@
     if (evt.which === 1) {
       if (map.classList.contains(`map--faded`)) {
         window.map.unblockMap();
+        window.pins.renderPinsOnMap(window.backend.data);
       }
 
       dragPin(evt);
@@ -121,7 +135,14 @@
   };
 
   const onPinClick = function (evt) {
+    const activePin = document.querySelector(`.map__pin--active`);
+
+    if (activePin) {
+      activePin.classList.remove(`map__pin--active`);
+    }
+
     if (evt.target.closest(`.map__pin`) && !evt.target.closest(`.map__pin--main`)) {
+      evt.target.closest(`.map__pin`).classList.add(`map__pin--active`);
       window.card.renderCard(
           window.filters.filterData(
               window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
@@ -130,7 +151,14 @@
   };
 
   const onActivePinEnter = function (evt) {
+    const activePin = document.querySelector(`.map__pin--active`);
+
+    if (activePin) {
+      activePin.classList.remove(`map__pin--active`);
+    }
+
     if (evt.key === `Enter` && !evt.target.closest(`.map__pin--main`)) {
+      evt.target.closest(`.map__pin`).classList.add(`map__pin--active`);
       window.card.renderCard(
           window.filters.filterData(
               window.backend.data)[evt.target.closest(`.map__pin`).dataset.pinIndex]
@@ -155,20 +183,18 @@
   const updatePins = function () {
     const pins = pinsList.querySelectorAll(`.map__pin`);
 
-    pins.forEach(function (pin) {
-      if (!pin.classList.contains(`map__pin--main`)) {
-        pin.remove();
-      }
-    });
-
+    removePins(pins);
     renderPinsOnMap(window.filters.filterData(window.backend.data));
   };
 
   window.pins = {
     putListenersOnBlockMap,
     putListenersOnUnblockMap,
+    onMainPinEnter,
+    onMainPinMouseDown,
     getPinCoords,
     renderPinsOnMap,
+    removePins,
     updatePins,
     pinXOffset,
     pinYOffset

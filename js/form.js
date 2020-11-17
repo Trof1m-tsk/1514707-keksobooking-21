@@ -2,6 +2,8 @@
 
 (function () {
   const adForm = document.querySelector(`.ad-form`);
+  const resetButton = adForm.querySelector(`.ad-form__reset`);
+  const fieldSets = adForm.querySelectorAll(`fieldset`);
   const addressInput = document.querySelector(`#address`);
   const roomsSelect = adForm.querySelector(`#room_number`);
   const capacitySelect = adForm.querySelector(`#capacity`);
@@ -17,16 +19,18 @@
   const checkoutSelect = adForm.querySelector(`#timeout`);
   const mainPin = window.map.mainPin;
 
-  mainPin.addEventListener(`mousemove`, function () {
+  const setAddress = function () {
     addressInput.value = window.pins.getPinCoords(mainPin);
-  });
+  };
+
+  mainPin.addEventListener(`mousemove`, setAddress);
 
   const onRoomsChangeCapacity = function (evt) {
     if (evt.target.value === `100`) {
       capacitySelect.querySelector(`option[value="0"]`).selected = `selected`;
-    } else if (evt.target.value === `3`) {
+    } else if (evt.target.value === `3` && capacitySelect.value === `0`) {
       capacitySelect.querySelector(`option[value="3"]`).selected = `selected`;
-    } else if (evt.target.value === `2`) {
+    } else if (evt.target.value === `2` && (capacitySelect.value === `3` || capacitySelect.value === `0`)) {
       capacitySelect.querySelector(`option[value="2"]`).selected = `selected`;
     } else if (evt.target.value === `1`) {
       capacitySelect.querySelector(`option[value="1"]`).selected = `selected`;
@@ -38,10 +42,9 @@
       capacitySelect.setCustomValidity(`Не для гостей`);
     } else if (roomsSelect.value === `3` && evt.target.value === `0`) {
       capacitySelect.setCustomValidity(`Количество гостей может быть 1, 2 или 3`);
-    } else if (roomsSelect.value === `2` && evt.target.value === `0` ||
-        roomsSelect.value === `2` && capacitySelect.value === `3`) {
+    } else if (roomsSelect.value === `2` && (evt.target.value === `0` || evt.target.value === `3`)) {
       capacitySelect.setCustomValidity(`Количество гостей может быть 1 или 2`);
-    } else if (roomsSelect.value === `1` && !evt.target.value !== `1`) {
+    } else if (roomsSelect.value === `1` && evt.target.value !== `1`) {
       capacitySelect.setCustomValidity(`Только для одного гостя`);
     } else {
       capacitySelect.setCustomValidity(``);
@@ -74,6 +77,48 @@
     checkinSelect.querySelector(`option[value="${evt.target.value}"]`).selected = `selected`;
   };
 
+  const blockFields = function () {
+    fieldSets.forEach(function (fieldset) {
+      fieldset.setAttribute(`disabled`, true);
+    });
+  };
+
+  const unblockFields = function () {
+    fieldSets.forEach(function (fieldset) {
+      fieldset.removeAttribute(`disabled`);
+    });
+  };
+
+  const resetPage = function() {
+    if (window.map.map.querySelector(`.map__card`)) {
+      window.card.deleteCard();
+    };
+
+    window.map.blockMap();
+    window.filters.filters.reset();
+    window.pins.removePins();
+    adForm.reset();
+    blockFields();
+    window.map.mainPin.style = `left: 570px; top: 375px`;
+    setAddress();
+  };
+
+  const onReset = function (evt) {
+    evt.preventDefault();
+    resetPage();
+  };
+
+  const onSuccess = function () {
+    resetPage();
+    window.popups.showSuccessPopup();
+  };
+
+  const onSubmit = function (evt) {
+    const data = new FormData(adForm);
+    evt.preventDefault();
+    window.backend.upload(data, onSuccess, window.popups.showErrorPopup);
+  };
+
   const putListenersOnBlockMap = function () {
     adForm.classList.add(`ad-form--disabled`);
     roomsSelect.removeEventListener(`input`, onRoomsChangeCapacity);
@@ -81,6 +126,8 @@
     typeSelect.removeEventListener(`input`, onTypeChangePrice);
     checkinSelect.removeEventListener(`input`, onCheckoutChange);
     checkoutSelect.removeEventListener(`input`, onCheckinChange);
+    resetButton.removeEventListener(`click`, onReset);
+    adForm.removeEventListener(`submit`, onSubmit);
   };
 
   const putListenersOnUnblockMap = function () {
@@ -90,18 +137,21 @@
     typeSelect.addEventListener(`input`, onTypeChangePrice);
     checkinSelect.addEventListener(`input`, onCheckoutChange);
     checkoutSelect.addEventListener(`input`, onCheckinChange);
+    resetButton.addEventListener(`click`, onReset);
+    adForm.addEventListener(`submit`, onSubmit);
   };
 
-  adForm.addEventListener(`submit`, function (evt) {
-    evt.preventDefault();
-    window.backend.send(adForm, window.popups.showSuccessPopup, window.popups.showErrorPopup);
-  });
+  setAddress();
 
   window.form = {
     adForm,
+    setAddress,
     putListenersOnBlockMap,
     putListenersOnUnblockMap,
-    addressInput
+    addressInput,
+    onReset,
+    blockFields,
+    unblockFields
   };
 
 })();
