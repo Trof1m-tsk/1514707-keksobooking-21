@@ -2,6 +2,7 @@
 
 (function () {
   const filters = document.querySelector(`.map__filters`);
+  const filtersList = filters.querySelectorAll(`.map__filter`);
   const typeFilter = document.querySelector(`#housing-type`);
   const priceFilter = document.querySelector(`#housing-price`);
   const roomsFilter = document.querySelector(`#housing-rooms`);
@@ -30,6 +31,20 @@
 
   const removeFiltersListeners = function () {
     filters.removeEventListener(`change`, onFilterChange);
+  };
+
+  const block = function () {
+    filtersList.forEach(function (filter) {
+      filter.setAttribute(`disabled`, true);
+    });
+    featuresBar.setAttribute(`disabled`, true);
+  };
+
+  const unblock = function () {
+    filtersList.forEach(function (filter) {
+      filter.removeAttribute(`disabled`);
+    });
+    featuresBar.removeAttribute(`disabled`);
   };
 
   const filterData = function (data) {
@@ -209,7 +224,9 @@
     filters,
     filterData,
     addFiltersListeners,
-    removeFiltersListeners
+    removeFiltersListeners,
+    block,
+    unblock
   };
 
 })();

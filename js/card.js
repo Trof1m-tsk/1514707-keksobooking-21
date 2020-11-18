@@ -7,30 +7,30 @@
 
   const onCardCloseBtnClick = function (evt) {
     if (evt.target.matches(`.popup__close`) && evt.which === 1) {
-      deleteCard();
+      close();
     }
   };
 
-  const onEscCard = function (evt) {
+  const onCardPressEsc = function (evt) {
     if (evt.key === `Escape`) {
-      deleteCard();
+      close();
     }
   };
 
-  const renderCard = function (data) {
+  const render = function (data) {
     if (!map.querySelector(`.map__card`)) {
       map.insertBefore(cardTemplate.cloneNode(true), filtersContainer);
       map.addEventListener(`click`, onCardCloseBtnClick);
-      document.addEventListener(`keydown`, onEscCard);
+      document.addEventListener(`keydown`, onCardPressEsc);
     }
 
     rednderCardElement(data);
   };
 
-  const deleteCard = function () {
+  const close = function () {
     const mapCard = map.querySelector(`.map__card`);
     map.removeEventListener(`click`, onCardCloseBtnClick);
-    document.removeEventListener(`keydown`, onEscCard);
+    document.removeEventListener(`keydown`, onCardPressEsc);
     map.removeChild(mapCard);
   };
 
@@ -106,8 +106,8 @@
   };
 
   window.card = {
-    renderCard,
-    deleteCard
+    render,
+    close
   };
 
 })();

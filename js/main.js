@@ -4,7 +4,7 @@
   const mainPin = window.map.mainPin;
 
   mainPin.addEventListener(`mousedown`, window.pins.onMainPinMouseDown);
-  mainPin.addEventListener(`keydown`, window.pins.onMainPinEnter);
+  mainPin.addEventListener(`keydown`, window.pins.onMainPinPressEnter);
 
   const onDataLoad = function (data) {
     window.backend.data = data;

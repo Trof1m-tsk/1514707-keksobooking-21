@@ -10,6 +10,7 @@
     window.pins.putListenersOnBlockMap();
     window.form.putListenersOnBlockMap();
     window.filters.removeFiltersListeners();
+    window.filters.block();
   };
 
   const unblockMap = function () {
@@ -18,10 +19,10 @@
     window.pins.putListenersOnUnblockMap();
     window.form.putListenersOnUnblockMap();
     window.filters.addFiltersListeners();
+    window.filters.unblock();
   };
 
   window.map = {
-    map,
     mainPin,
     blockMap,
     unblockMap

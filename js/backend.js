@@ -9,6 +9,7 @@
   const SENDING_ERR_MESSAGE = `Не удаётся зарегистрировать объявление`;
   const LOADING_ERR_MESSAGE = `Не удаётся загрузить данные`;
   const LOADING_ERR_BUTTON_TEXT = `Понятно`;
+  const OK = 200;
   const TIMEOUT = 5000;
 
   const load = function (onLoad, onError) {
@@ -18,7 +19,7 @@
     xhr.open(`GET`, URL.load);
 
     xhr.addEventListener(`load`, function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OK) {
         onLoad(xhr.response);
       } else {
         onError(LOADING_ERR_MESSAGE, LOADING_ERR_BUTTON_TEXT);
@@ -37,7 +38,7 @@
 
     xhr.responseType = `json`;
     xhr.addEventListener(`load`, function () {
-      if (xhr.status === 200) {
+      if (xhr.status === OK) {
         onLoad();
       } else {
         onError(SENDING_ERR_MESSAGE);
