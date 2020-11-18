@@ -2,6 +2,7 @@
 
 (function () {
   const adForm = document.querySelector(`.ad-form`);
+  const map = document.querySelector(`.map`);
   const resetButton = adForm.querySelector(`.ad-form__reset`);
   const fieldSets = adForm.querySelectorAll(`fieldset`);
   const addressInput = document.querySelector(`#address`);
@@ -90,8 +91,8 @@
   };
 
   const resetPage = function () {
-    if (window.map.map.querySelector(`.map__card`)) {
-      window.card.deleteCard();
+    if (map.querySelector(`.map__card`)) {
+      window.card.delete();
     }
 
     window.map.blockMap();
